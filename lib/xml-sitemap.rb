@@ -10,8 +10,8 @@ module XmlSitemap
     def initialize(opts={})
       @path = opts[:url] if opts.key?(:url)
       @updated = opts[:updated] || Time.now
-      @priority = opts[:priority] || 0.5
-      @changefreq = opts[:period] || :never
+      @priority = opts[:priority] || 1.0
+      @changefreq = opts[:period] || :weekly
     end
   end
 
@@ -46,7 +46,7 @@ module XmlSitemap
       @items.each do |item|
         output << '<url>'
           output << "<loc>http://#{@domain}#{item.path.to_s}</loc>"
-          output << "<lastmod>#{item.updated.to_date}</lastmod>"
+          output << "<lastmod>#{item.updated.utc.strftime("%Y-%m-%dT%H:%M:%S-0000")}</lastmod>"
           output << "<changefreq>#{item.changefreq.to_s}</changefreq>"
           output << "<priority>#{item.priority.to_s}</priority>"
         output << '</url>'
