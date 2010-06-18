@@ -1,0 +1,37 @@
+== About XmlSitemap
+
+XmlSitemap is a gem to build website XML sitemaps.
+
+== How To Use
+
+require 'rubygems'
+require 'xml-sitemap'
+
+== Example
+
+# Somewhere in controller
+
+pages = Page.all(:order => [:updated_at.desc] # DM model
+
+@map = XmlSitemap::Map.new('somedomain.com') do |m|
+  m.add(:url => '/', :period => :daily, :priority => 1.0)
+  m.add(:url => '/contractors', :period => :daily, :priority => 1.0)
+  pages.each do |p|
+    m.add(
+      :url => url_for_page(p),
+      :updated => p.updated_at,
+      :priority => 0.5,
+      :period => :never
+    )
+  end
+end
+
+# ... then render it in your view
+<%= @map.render %>
+
+== Options
+
+:url - page path, relative to domain (ex.: /test), String.
+:period - freqchange attribute, Symbol, :none, :never, :always, :hourly, :daily, :weekly, :monthly, :yearly
+:priority - priority attribute, Float class,(0.0..1.0)
+:updated - (optional) last_update attribute, Time class
