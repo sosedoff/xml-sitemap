@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'xml-sitemap'
-  s.version = '1.0.2'
+  s.version = '1.0.3'
   s.date = '2010-06-18'
   s.description = "Easy XML sitemap generation for Ruby/Rails application"
   s.summary = "No-dependency XML sitemap generator. Can be used for any Ruby application (Rails/Merb/Sinatra)."
@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   # = MANIFEST =
 
   s.has_rdoc = true
-  s.homepage = "http://sosedoff.com/"
-  s.rubygems_version = '1.3.5'
+  s.homepage = "http://github.com/sosedoff/xml-sitemap"
+  s.rubygems_version = '1.3.7'
 end

@@ -18,10 +18,13 @@ module XmlSitemap
   class Map
     attr_reader :domain, :items
     attr_reader :buffer
+    attr_reader :created_at
+    attr_accessor :index_path
     
     # Creates new Map class for specified domain
     def initialize(domain)
       @domain = domain
+      @created_at = Time.now
       @items = []
       yield self if block_given?
     end
@@ -35,6 +38,11 @@ module XmlSitemap
     # Add new item to sitemap list
     def add(opts)
       @items << XmlSitemap::Item.new(opts)
+    end
+    
+    # Get map items count
+    def size
+      @items.size
     end
     
     # Render XML
@@ -55,4 +63,38 @@ module XmlSitemap
       return output.join("\n")
     end
   end
+  
+  class Index
+    attr_reader :domain, :maps
+    
+    def initialize(domain)
+      @domain = domain
+      @maps = []
+    end
+    
+    # Add XmlSitemap::Map item to sitemap index
+    def add(map)
+      raise 'XmlSitemap::Map object requred!' unless map.kind_of?(Map)
+      @maps << {:loc => "http://#{@domain}/#{map.index_path}", :lastmod => map.created_at.for_sitemap}
+    end
+    
+    # Generate sitemap XML index
+    def render
+      output = [] ; map_id = 1
+      output << '<?xml version="1.0" encoding="UTF-8"?>'
+      output << '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+      @maps.each do |m|
+        output << '<sitemap>'
+        output << "<loc>#{m[:loc]}</loc>"
+        output << "<lastmod>#{m[:lastmod]}</lastmod>"
+        output << '</sitemap>'
+      end
+      output << '</sitemapindex>'
+      return output.join("\n")
+    end
+  end
+end
+
+class Time
+  def for_sitemap ; self.utc.strftime("%Y-%m-%dT%H:%M:%S-0000") ; end
 end
