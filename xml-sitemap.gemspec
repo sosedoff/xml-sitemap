@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'xml-sitemap'
   s.version = '1.0.3'
-  s.date = '2010-06-18'
+  s.date = '2010-09-17'
   s.description = "Easy XML sitemap generation for Ruby/Rails application"
   s.summary = "No-dependency XML sitemap generator. Can be used for any Ruby application (Rails/Merb/Sinatra)."
   s.authors = ["Dan Sosedoff"]
