@@ -1,3 +1,5 @@
+require 'time'
+
 module XmlSitemap
   PERIODS = [:none, :always, :hourly, :daily, :weekly, :monthly, :yearly, :never]
 
@@ -54,7 +56,7 @@ module XmlSitemap
       @items.each do |item|
         output << '<url>'
           output << "<loc>http://#{@domain}#{item.path.to_s}</loc>"
-          output << "<lastmod>#{item.updated.utc.strftime("%Y-%m-%dT%H:%M:%S-0000")}</lastmod>"
+          output << "<lastmod>#{item.updated.utc.iso8601}</lastmod>"
           output << "<changefreq>#{item.changefreq.to_s}</changefreq>"
           output << "<priority>#{item.priority.to_s}</priority>"
         output << '</url>'
@@ -75,7 +77,7 @@ module XmlSitemap
     # Add XmlSitemap::Map item to sitemap index
     def add(map)
       raise 'XmlSitemap::Map object requred!' unless map.kind_of?(Map)
-      @maps << {:loc => "http://#{@domain}/#{map.index_path}", :lastmod => map.created_at.for_sitemap}
+      @maps << {:loc => "http://#{@domain}/#{map.index_path}", :lastmod => map.created_at.utc.iso8601}
     end
     
     # Generate sitemap XML index
@@ -93,8 +95,4 @@ module XmlSitemap
       return output.join("\n")
     end
   end
-end
-
-class Time
-  def for_sitemap ; self.utc.strftime("%Y-%m-%dT%H:%M:%S-0000") ; end
 end
