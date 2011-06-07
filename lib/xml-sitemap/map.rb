@@ -98,15 +98,9 @@ module XmlSitemap
     # Process target path or url
     def process_target(str)
       if @root == true
-        str = "/#{str}" unless str =~ /^\//
-        "#{@secure ? 'https' : 'http'}://#{@domain}#{str}"
+        url(str =~ /^\// ? str : "/#{str}")
       else
-        if str =~ /^(http|https)/i
-          str
-        else
-          str = "/#{str}" unless str =~ /^\//
-          "#{@secure ? 'https' : 'http'}://#{@domain}#{str}"
-        end
+        str =~ /^(http|https)/i ? str : url(str =~ /^\// ? str : "/#{str}")
       end
     end
   end
