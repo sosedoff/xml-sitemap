@@ -16,7 +16,7 @@ describe XmlSitemap::Index do
   end
   
   it 'should raise error if passing an empty sitemap' do
-    map = XmlSitemap::Map.new('foobar.com', :nohome => true)
+    map = XmlSitemap::Map.new('foobar.com', :home => false)
     index = XmlSitemap::Index.new
     proc { index.add(map) }.should raise_error ArgumentError, 'Map is empty!'
   end

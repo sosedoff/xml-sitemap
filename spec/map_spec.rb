@@ -25,7 +25,7 @@ describe XmlSitemap::Map do
   end
   
   it 'should not have a home path with option' do
-    map = XmlSitemap::Map.new('foobar.com', :nohome => true)
+    map = XmlSitemap::Map.new('foobar.com', :home => false)
     map.empty?.should == true
   end
   
