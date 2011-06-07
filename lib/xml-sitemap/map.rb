@@ -23,11 +23,11 @@ module XmlSitemap
       
       @created_at = opts[:time]   || Time.now.utc
       @secure     = opts[:secure] || false
-      @nohome     = opts[:nohome] || false
+      @home       = opts[:home]   || true
       @root       = opts.key?(:root) ? opts[:root] : true
       @items      = []
       
-      self.add('/', :priority => 1.0) if @nohome == false
+      self.add('/', :priority => 1.0) if @home == true
       
       yield self if block_given?
     end
