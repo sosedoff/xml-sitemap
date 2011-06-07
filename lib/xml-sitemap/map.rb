@@ -1,12 +1,9 @@
 module XmlSitemap
   class Item
-    attr_reader :path
-    attr_reader :updated
-    attr_reader :priority
-    attr_reader :changefreq
+    attr_reader :target, :updated, :priority, :changefreq
     
-    def initialize(opts={})
-      @path       = opts[:url] if opts.key?(:url)
+    def initialize(target, opts={})
+      @target     = target.to_s.strip
       @updated    = opts[:updated]  || Time.now.utc
       @priority   = opts[:priority] || 0.5
       @changefreq = opts[:period]   || :weekly
@@ -18,15 +15,17 @@ module XmlSitemap
     attr_reader   :buffer
     attr_reader   :created_at
     attr_accessor :index_path
+    attr_reader   :root
     
     # Creates new Map class for specified domain
     def initialize(domain, opts={})
       @domain     = domain
-      @created_at = opts[:time]       || Time.now.utc
-      @secure     = opts[:secure]     || false
+      @created_at = opts[:time]   || Time.now.utc
+      @secure     = opts[:secure] || false
+      @root       = opts.key?(:root) ? opts[:root] : true
       @items      = []
       
-      self.add(:url => '/', :priority => 1.0)
+      self.add('/', :priority => 1.0)
       
       yield self if block_given?
     end
@@ -38,9 +37,15 @@ module XmlSitemap
     end
     
     # Add new item to sitemap list
-    def add(opts)
+    def add(target, opts={})
+      raise RuntimeError, 'Only less than 50k records allowed!' if @items.size >= 50000
+      raise ArgumentError, 'Target required!' if target.nil?
+      raise ArgumentError, 'Target is empty!' if target.to_s.strip.empty?
+      
       opts[:updated] = @created_at unless opts.key?(:updated)
-      @items << XmlSitemap::Item.new(opts)
+      item = XmlSitemap::Item.new(process_target(target), opts)
+      @items << item
+      item
     end
     
     # Get map items count
@@ -65,7 +70,7 @@ module XmlSitemap
       xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
         @items.each do |item|
           s.url do |u|
-            u.loc        url(item.path)
+            u.loc        item.target
             u.lastmod    item.updated.utc.iso8601
             u.changefreq item.changefreq.to_s
             u.priority   item.priority.to_s
@@ -74,6 +79,33 @@ module XmlSitemap
       }.to_s
     end
     
-    alias :to_s :render
+    # Render XML sitemap into the file
+    def render_to(path, opts={})
+      overwrite = opts[:overwrite] || true
+      path = File.expand_path(path)
+      
+      if File.exists?(path) && !overwrite
+        raise RuntimeError, "File already exists and not overwritable!"
+      end
+      
+      File.open(path, 'w') { |f| f.write(self.render) }
+    end
+    
+    protected
+  
+    # Process target path or url
+    def process_target(str)
+      if @root == true
+        str = "/#{str}" unless str =~ /^\//
+        "#{@secure ? 'https' : 'http'}://#{@domain}#{str}"
+      else
+        if str =~ /^(http|https)/i
+          str
+        else
+          str = "/#{str}" unless str =~ /^\//
+          "#{@secure ? 'https' : 'http'}://#{@domain}#{str}"
+        end
+      end
+    end
   end
 end
