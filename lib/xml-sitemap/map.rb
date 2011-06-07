@@ -19,7 +19,9 @@ module XmlSitemap
     
     # Creates new Map class for specified domain
     def initialize(domain, opts={})
-      @domain     = domain
+      @domain     = domain.to_s.strip
+      raise ArgumentError, 'Domain required!' if @domain.empty?
+      
       @created_at = opts[:time]   || Time.now.utc
       @secure     = opts[:secure] || false
       @root       = opts.key?(:root) ? opts[:root] : true

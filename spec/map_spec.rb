@@ -5,6 +5,12 @@ describe XmlSitemap::Map do
     @base_time = Time.mktime(2011, 6, 1, 0, 0, 1)
   end
   
+  it 'should not allow empty domains' do
+    proc { XmlSitemap::Map.new(nil) }.should raise_error ArgumentError
+    proc { XmlSitemap::Map.new('') }.should raise_error ArgumentError
+    proc { XmlSitemap::Map.new(' ') }.should raise_error ArgumentError
+  end
+  
   it 'should not allow empty urls' do
     map = XmlSitemap::Map.new('foobar.com')
     proc { map.add(nil)  }.should raise_error ArgumentError
