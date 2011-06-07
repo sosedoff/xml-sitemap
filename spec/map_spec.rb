@@ -18,10 +18,15 @@ describe XmlSitemap::Map do
     proc { map.add('  ') }.should raise_error ArgumentError
   end
   
-  it 'should have home path by default' do
+  it 'should have a home path by default' do
     map = XmlSitemap::Map.new('foobar.com')
     map.empty?.should == false
     map.items.first.target.should == 'http://foobar.com/'
+  end
+  
+  it 'should not have a home path with option' do
+    map = XmlSitemap::Map.new('foobar.com', :nohome => true)
+    map.empty?.should == true
   end
   
   it 'should autocomplete path with no starting slash' do

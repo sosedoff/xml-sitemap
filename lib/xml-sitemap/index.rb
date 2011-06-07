@@ -1,31 +1,50 @@
 module XmlSitemap
   class Index
-    attr_reader :domain, :maps
+    attr_reader :maps
     
-    def initialize(domain)
-      @domain = domain
+    def initialize(opts={})
       @maps   = []
+      @offset = 0
+      
+      yield self if block_given?
     end
     
-    # Add XmlSitemap::Map item to sitemap index
+    # Add map object to index
     def add(map)
-      raise 'XmlSitemap::Map object requred!' unless map.kind_of?(Map)
-      @maps << {:loc => "http://#{@domain}/#{map.index_path}", :lastmod => map.created_at.utc.iso8601}
+      raise ArgumentError, 'XmlSitemap::Map object requred!' unless map.kind_of?(XmlSitemap::Map)
+      raise ArgumentError, 'Map is empty!' if map.empty?
+      
+      @maps << {
+        :loc     => map.index_url(@offset),
+        :lastmod => map.created_at.utc.iso8601
+      }
+      @offset += 1
     end
     
     # Generate sitemap XML index
     def render
-      output = [] ; map_id = 1
-      output << '<?xml version="1.0" encoding="UTF-8"?>'
-      output << '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-      @maps.each do |m|
-        output << '<sitemap>'
-        output << "<loc>#{m[:loc]}</loc>"
-        output << "<lastmod>#{m[:lastmod]}</lastmod>"
-        output << '</sitemap>'
+      xml = Builder::XmlMarkup.new(:indent => 2)
+      xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
+      xml.urlset(XmlSitemap::INDEX_SCHEMA_OPTIONS) { |s|
+        @maps.each do |item|
+          s.sitemap do |m|
+            m.loc        item[:loc]
+            m.lastmod    item[:lastmod]
+          end
+        end
+      }.to_s
+    end
+    
+    # Render XML sitemap index into the file
+    def render_to(path, opts={})
+      overwrite = opts[:overwrite] || true
+      path = File.expand_path(path)
+      
+      if File.exists?(path) && !overwrite
+        raise RuntimeError, "File already exists and not overwritable!"
       end
-      output << '</sitemapindex>'
-      return output.join("\n")
+      
+      File.open(path, 'w') { |f| f.write(self.render) }
     end
   end
 end

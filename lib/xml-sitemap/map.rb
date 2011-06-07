@@ -14,7 +14,6 @@ module XmlSitemap
     attr_reader   :domain, :items
     attr_reader   :buffer
     attr_reader   :created_at
-    attr_accessor :index_path
     attr_reader   :root
     
     # Creates new Map class for specified domain
@@ -24,10 +23,11 @@ module XmlSitemap
       
       @created_at = opts[:time]   || Time.now.utc
       @secure     = opts[:secure] || false
+      @nohome     = opts[:nohome] || false
       @root       = opts.key?(:root) ? opts[:root] : true
       @items      = []
       
-      self.add('/', :priority => 1.0)
+      self.add('/', :priority => 1.0) if @nohome == false
       
       yield self if block_given?
     end
@@ -63,6 +63,11 @@ module XmlSitemap
     # Generate full url for path
     def url(path='')
       "#{@secure ? 'https' : 'http'}://#{@domain}#{path}"
+    end
+    
+    # Get full url for index
+    def index_url(offset)
+      "http://#{@domain}/sitemap-#{offset}.xml"
     end
     
     # Render XML
