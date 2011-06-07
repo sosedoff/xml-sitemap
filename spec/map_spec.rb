@@ -35,8 +35,9 @@ describe XmlSitemap::Map do
   end
   
   it 'should have properly encoded entities' do
-    map = XmlSitemap::Map.new('foobar.com')
-    map.add('/path?a=b&c=d&e=sample string').target.should == 'http://foobar.com/path?a=b&c=d&e=sample string'
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    map.add('/path?a=b&c=d&e=sample string')
+    map.render.should == fixture('encoded_map.xml')
   end
   
   it 'should not allow more than 50k records' do
