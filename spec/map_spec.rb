@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe XmlSitemap::Map do
   before :all do
-    @base_time = Time.mktime(2011, 6, 1, 0, 0, 1)
+    @base_time = Time.mktime(2011, 6, 1, 0, 0, 1).utc
+    @extra_time = Time.mktime(2011, 7, 1, 0, 0, 1).utc
   end
   
   it 'should not allow empty domains' do
@@ -43,6 +44,12 @@ describe XmlSitemap::Map do
   it 'should render urls in https mode' do
     map = XmlSitemap::Map.new('foobar.com', :secure => true)
     map.add('path').target.should == 'https://foobar.com/path'
+  end
+  
+  it 'should properly set entry time' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    map.add('hello').updated.should == @base_time
+    map.add('world', :updated => @extra_time).updated.should == Time.mktime(2011, 7, 1, 0, 0, 1)
   end
   
   it 'should have properly encoded entities' do
