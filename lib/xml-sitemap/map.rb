@@ -4,13 +4,20 @@ module XmlSitemap
     
     def initialize(target, opts={})
       @target     = target.to_s.strip
-      @updated    = opts[:updated]  || Time.now.utc
+      @updated    = opts[:updated]  || Time.now
       @priority   = opts[:priority] || 0.5
       @changefreq = opts[:period]   || :weekly
       
+      # allow only date or time object
       unless @updated.kind_of?(Time) || @updated.kind_of?(Date)
         raise ArgumentError, "Time or Date required for :updated!"
       end
+      
+      # use full time and date only!
+      @updated = @updated.to_time if @updated.kind_of?(Date)
+      
+      # use UTC only!
+      @updated = @updated.utc
     end
   end
 
