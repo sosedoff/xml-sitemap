@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe XmlSitemap::Map do
   before :all do
-    @base_time = Time.mktime(2011, 6, 1, 0, 0, 1).utc
-    @extra_time = Time.mktime(2011, 7, 1, 0, 0, 1).utc
+    @base_time = Time.gm(2011, 6, 1, 0, 0, 1)
+    @extra_time = Time.gm(2011, 7, 1, 0, 0, 1)
   end
   
   it 'should not allow empty domains' do
@@ -49,7 +49,7 @@ describe XmlSitemap::Map do
   it 'should properly set entry time' do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
     map.add('hello').updated.should == @base_time
-    map.add('world', :updated => @extra_time).updated.should == Time.mktime(2011, 7, 1, 0, 0, 1)
+    map.add('world', :updated => @extra_time).updated.should == Time.gm(2011, 7, 1, 0, 0, 1)
   end
   
   it 'should raise Argument error if no time or date were provided' do

@@ -15,9 +15,6 @@ module XmlSitemap
       
       # use full time and date only!
       @updated = @updated.to_time if @updated.kind_of?(Date)
-      
-      # use UTC only!
-      @updated = @updated.utc
     end
   end
 

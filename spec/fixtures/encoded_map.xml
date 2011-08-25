@@ -2,13 +2,13 @@
 <urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://foobar.com/</loc>
-    <lastmod>2011-06-01T05:00:01Z</lastmod>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=sample string</loc>
-    <lastmod>2011-06-01T05:00:01Z</lastmod>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
