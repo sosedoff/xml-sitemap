@@ -1,4 +1,5 @@
 require 'time'
+require 'date'
 require 'builder'
 
 require 'xml-sitemap/options'
