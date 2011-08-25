@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>http://foobar.com/sitemap-0.xml</loc>
-    <lastmod>2011-06-01T05:00:01Z</lastmod>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
   </sitemap>
   <sitemap>
     <loc>http://foobar.com/sitemap-1.xml</loc>
-    <lastmod>2011-06-01T05:00:01Z</lastmod>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
   </sitemap>
 </urlset>

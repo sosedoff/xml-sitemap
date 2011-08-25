@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe XmlSitemap::Index do
   before :all do
-    @base_time = Time.mktime(2011, 6, 1, 0, 0, 1)
+    @base_time = Time.gm(2011, 6, 1, 0, 0, 1)
   end
   
   it 'should be valid if no sitemaps were supplied' do
