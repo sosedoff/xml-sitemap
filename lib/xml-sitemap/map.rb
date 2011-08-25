@@ -7,6 +7,10 @@ module XmlSitemap
       @updated    = opts[:updated]  || Time.now.utc
       @priority   = opts[:priority] || 0.5
       @changefreq = opts[:period]   || :weekly
+      
+      unless @updated.kind_of?(Time) || @updated.kind_of?(Date)
+        raise ArgumentError, "Time or Date required for :updated!"
+      end
     end
   end
 

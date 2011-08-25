@@ -52,6 +52,12 @@ describe XmlSitemap::Map do
     map.add('world', :updated => @extra_time).updated.should == Time.mktime(2011, 7, 1, 0, 0, 1)
   end
   
+  it 'should raise Argument error if no time or date were provided' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    proc { map.add('hello', :updated => 'invalid data') }.
+      should raise_error ArgumentError, "Time or Date required for :updated!"
+  end
+  
   it 'should have properly encoded entities' do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
     map.add('/path?a=b&c=d&e=sample string')
