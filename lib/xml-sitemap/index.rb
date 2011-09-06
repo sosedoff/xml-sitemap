@@ -3,8 +3,8 @@ module XmlSitemap
     attr_reader :maps
     
     def initialize(opts={})
-      @maps   = []
-      @offset = 0
+      @maps     = []
+      @offsets  = Hash.new(0)
       
       yield self if block_given?
     end
@@ -15,10 +15,10 @@ module XmlSitemap
       raise ArgumentError, 'Map is empty!' if map.empty?
       
       @maps << {
-        :loc     => map.index_url(@offset),
+        :loc     => map.index_url(@offsets[map.group]),
         :lastmod => map.created_at.utc.iso8601
       }
-      @offset += 1
+      @offsets[map.group] += 1
     end
     
     # Generate sitemap XML index
