@@ -23,6 +23,7 @@ module XmlSitemap
     attr_reader   :buffer
     attr_reader   :created_at
     attr_reader   :root
+    attr_reader   :group
     
     # Creates new Map class for specified domain
     def initialize(domain, opts={})
@@ -33,6 +34,7 @@ module XmlSitemap
       @secure     = opts[:secure] || false
       @home       = opts.key?(:home) ? opts[:home] : true
       @root       = opts.key?(:root) ? opts[:root] : true
+      @group      = opts[:group] || "sitemap"
       @items      = []
       
       self.add('/', :priority => 1.0) if @home === true
@@ -75,7 +77,7 @@ module XmlSitemap
     
     # Get full url for index
     def index_url(offset)
-      "http://#{@domain}/sitemap-#{offset}.xml"
+      "http://#{@domain}/#{@group}-#{offset}.xml"
     end
     
     # Render XML
