@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>http://foobar.com/first-0.xml</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>http://foobar.com/second-0.xml</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>http://foobar.com/second-1.xml</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>http://foobar.com/third-0.xml</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+  </sitemap>
+</urlset>

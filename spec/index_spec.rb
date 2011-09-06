@@ -47,4 +47,24 @@ describe XmlSitemap::Index do
     File.read(path).should == fixture('sample_index.xml')
     File.delete(path) if File.exists?(path)
   end
+  
+  it 'should have separate running offsets for different map groups' do
+    m1 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "first")  { |m| m.add('about') }
+    m2 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "second") { |m| m.add('about') }
+    m3 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "second") { |m| m.add('about') }
+    m4 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "third")  { |m| m.add('about') }
+    
+    index = XmlSitemap::Index.new do |i|
+      i.add(m1)
+      i.add(m2)
+      i.add(m3)
+      i.add(m4)
+    end
+    
+    path = "/tmp/index_#{Time.now.to_i}.xml"
+    index.render_to(path)
+    File.read(path).should == fixture('group_index.xml')
+    File.delete(path) if File.exists?(path)
+  end
+  
 end
