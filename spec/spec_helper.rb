@@ -5,6 +5,7 @@ SimpleCov.start do
   add_group 'XmlSitemap', 'lib/xml-sitemap'
 end
 
+require 'digest'
 require 'xml-sitemap'
 
 def fixture_path
@@ -13,4 +14,18 @@ end
 
 def fixture(file)
   File.read(File.join(fixture_path, file))
+end
+
+def checksum(content)
+  Digest::SHA1.hexdigest(content)
+end
+
+def gunzip(path)
+  contents = nil
+  File.open(path) do |f|
+    gz = Zlib::GzipReader.new(f)
+    contents = gz.read
+    gz.close
+  end
+  contents
 end

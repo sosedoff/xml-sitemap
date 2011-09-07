@@ -97,15 +97,25 @@ module XmlSitemap
     end
     
     # Render XML sitemap into the file
-    def render_to(path, opts={})
-      overwrite = opts[:overwrite] || true
+    def render_to(path, options={})
+      overwrite = options[:overwrite] == true || true
+      compress  = options[:gzip]      == true || false
+      
       path = File.expand_path(path)
       
       if File.exists?(path) && !overwrite
         raise RuntimeError, "File already exists and not overwritable!"
       end
       
-      File.open(path, 'w') { |f| f.write(self.render) }
+      File.open(path, 'w') do |f|
+        unless compress
+          f.write(self.render)
+        else
+          gz = Zlib::GzipWriter.new(f)
+          gz.write(self.render)
+          gz.close
+        end
+      end
     end
     
     protected

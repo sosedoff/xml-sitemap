@@ -1,5 +1,6 @@
 require 'time'
 require 'date'
+require 'zlib'
 require 'builder'
 
 require 'xml-sitemap/options'

@@ -82,4 +82,19 @@ describe XmlSitemap::Map do
     File.read(path).should == fixture('saved_map.xml')
     File.delete(path) if File.exists?(path)
   end
+  
+  it 'should save gzip contents to the filesystem' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    
+    path = "/tmp/sitemap.xml"
+    path_gzip = path + ".gzip"
+    
+    map.render_to(path)
+    map.render_to(path_gzip, :gzip => true)
+    
+    checksum(File.read(path)).should == checksum(gunzip(path_gzip))
+    
+    File.delete(path) if File.exists?(path)
+    File.delete(path_gzip) if File.exists?(path_gzip)
+  end
 end
