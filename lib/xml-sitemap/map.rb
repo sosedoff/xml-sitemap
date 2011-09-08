@@ -1,11 +1,13 @@
 module XmlSitemap
   class Item
+    DEFAULT_PRIORITY = 0.5
+    
     attr_reader :target, :updated, :priority, :changefreq
     
     def initialize(target, opts={})
       @target     = target.to_s.strip
       @updated    = opts[:updated]  || Time.now
-      @priority   = opts[:priority] || 0.5
+      @priority   = opts[:priority] || DEFAULT_PRIORITY
       @changefreq = opts[:period]   || :weekly
       
       # allow only date or time object
