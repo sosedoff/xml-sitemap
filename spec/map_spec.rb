@@ -87,10 +87,24 @@ describe XmlSitemap::Map do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
     
     path = "/tmp/sitemap.xml"
-    path_gzip = path + ".gzip"
+    path_gzip = path + ".gz"
     
     map.render_to(path)
     map.render_to(path_gzip, :gzip => true)
+    
+    checksum(File.read(path)).should == checksum(gunzip(path_gzip))
+    
+    File.delete(path) if File.exists?(path)
+    File.delete(path_gzip) if File.exists?(path_gzip)
+  end
+  
+  it 'should add .gz extension if comression is enabled' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    path = '/tmp/sitemap.xml'
+    path_gzip = path + ".gz"
+    
+    map.render_to(path)
+    map.render_to(path, :gzip => true)
     
     checksum(File.read(path)).should == checksum(gunzip(path_gzip))
     

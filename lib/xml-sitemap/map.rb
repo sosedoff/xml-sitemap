@@ -102,6 +102,7 @@ module XmlSitemap
       compress  = options[:gzip]      == true || false
       
       path = File.expand_path(path)
+      path << ".gz" unless path =~ /\.gz\z/i if compress
       
       if File.exists?(path) && !overwrite
         raise RuntimeError, "File already exists and not overwritable!"
