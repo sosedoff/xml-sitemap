@@ -71,6 +71,15 @@ describe XmlSitemap::Map do
     }.should raise_error RuntimeError, 'Only less than 50k records allowed!'
   end
   
+  it 'should not allow urls longer than 2048 characters' do
+    long_string = (1..2049).to_a.map { |i| "a" }.join
+    
+    map = XmlSitemap::Map.new('foobar.com')
+    proc {
+      map.add(long_string)
+    }.should raise_error ArgumentError, "Target can't be longer than 2,048 characters!"
+  end
+  
   it 'should save contents to the filesystem' do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time) do |m|
       m.add('about')

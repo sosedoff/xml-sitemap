@@ -56,8 +56,14 @@ module XmlSitemap
       raise ArgumentError, 'Target required!' if target.nil?
       raise ArgumentError, 'Target is empty!' if target.to_s.strip.empty?
       
+      url = process_target(target)
+      
+      if url.length > 2048
+        raise ArgumentError, "Target can't be longer than 2,048 characters!"
+      end
+      
       opts[:updated] = @created_at unless opts.key?(:updated)
-      item = XmlSitemap::Item.new(process_target(target), opts)
+      item = XmlSitemap::Item.new(url, opts)
       @items << item
       item
     end
