@@ -13,13 +13,17 @@ module XmlSitemap
       @priority       = opts[:priority] || DEFAULT_PRIORITY
       @changefreq     = opts[:period]   || :weekly
       @validate_time  = (opts[:validate_time] != false)
-
+      
       unless @updated.kind_of?(Time) || @updated.kind_of?(Date) || @updated.kind_of?(String)
         raise ArgumentError, "Time, Date, or ISO8601 String required for :updated!"
       end
 
       if @validate_time && @updated.kind_of?(String) && !(@updated =~ ISO8601_REGEX)
         raise ArgumentError, "String provided to :updated did not match ISO8601 standard!"
+      end
+      
+      unless XmlSitemap::PERIODS.include?(@changefreq)
+        raise ArgumentError, "Invalid :period value '#{@changefreq}'"
       end
 
       @updated = @updated.to_time if @updated.kind_of?(Date)
