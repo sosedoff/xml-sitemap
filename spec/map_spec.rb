@@ -54,8 +54,27 @@ describe XmlSitemap::Map do
   
   it 'should raise Argument error if no time or date were provided' do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    proc { map.add('hello', :updated => 5) }.
+      should raise_error ArgumentError, "Time, Date, or ISO8601 String required for :updated!"
+  end
+  
+  it 'should not raise Argument error if a iso8601 string is provided' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    proc { map.add('hello', :updated => "2011-09-12T23:18:49Z") }.
+      should_not raise_error
+    map.add('world', :updated => @extra_time.utc.iso8601).updated.should == Time.gm(2011, 7, 1, 0, 0, 1).utc.iso8601
+  end
+  
+  it 'should not raise Argument error if a string is provided with :validate_time => false' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    proc { map.add('hello', :validate_time => false, :updated => 'invalid data') }.
+      should_not raise_error
+  end
+  
+  it 'should raise Argument error if an invalid string is provided' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
     proc { map.add('hello', :updated => 'invalid data') }.
-      should raise_error ArgumentError, "Time or Date required for :updated!"
+      should raise_error ArgumentError, "String provided to :updated did not match ISO8601 standard!"
   end
   
   it 'should have properly encoded entities' do
