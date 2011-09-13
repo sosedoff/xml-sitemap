@@ -4,6 +4,7 @@ require 'zlib'
 require 'builder'
 
 require 'xml-sitemap/options'
+require 'xml-sitemap/item'
 require 'xml-sitemap/map'
 require 'xml-sitemap/index'
 
