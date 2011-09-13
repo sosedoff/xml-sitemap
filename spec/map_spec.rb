@@ -61,7 +61,7 @@ describe XmlSitemap::Map do
     end
     
     Benchmark.bm do |x|
-      x.report("render")            { map.render }
+      x.report("render(:builder)")  { map.render(:builder)  }
       x.report("render(:nokogiri)") { map.render(:nokogiri) }
       x.report("render(:string)")   { map.render(:string)   }
     end

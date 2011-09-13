@@ -104,10 +104,13 @@ module XmlSitemap
     end
     
     # Render XML
-    def render(method = :builder)
+    def render(method = :string)
       case method
       when :nokogiri
-        builder = ::Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
+        unless defined? Nokogiri
+          raise ArgumentError, "Nokogiri not found!"
+        end
+        builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
           xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
             @items.each do |item|
               s.url do |u|
@@ -120,7 +123,20 @@ module XmlSitemap
           }
         end
         builder.to_xml
-      when :string
+      when :builder
+        xml = Builder::XmlMarkup.new(:indent => 2)
+        xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
+        xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
+          @items.each do |item|
+            s.url do |u|
+              u.loc        item.target
+              u.lastmod    item.lastmod_value
+              u.changefreq item.changefreq.to_s
+              u.priority   item.priority.to_s
+            end
+          end
+        }.to_s
+      else # :string is default
         result = '<?xml version="1.0" encoding="UTF-8"?>' + "\n<urlset"
         
         XmlSitemap::MAP_SCHEMA_OPTIONS.each do |key, val|
@@ -143,19 +159,6 @@ module XmlSitemap
         
         result = result + item_results.join("") + "</urlset>\n"
         result
-      else # :builder is default
-        xml = Builder::XmlMarkup.new(:indent => 2)
-        xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
-        xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
-          @items.each do |item|
-            s.url do |u|
-              u.loc        item.target
-              u.lastmod    item.lastmod_value
-              u.changefreq item.changefreq.to_s
-              u.priority   item.priority.to_s
-            end
-          end
-        }.to_s
       end
     end
     

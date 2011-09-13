@@ -2,7 +2,10 @@ require 'time'
 require 'date'
 require 'zlib'
 require 'builder'
-require 'nokogiri'
+begin
+  require 'nokogiri'
+rescue LoadError
+end
 
 require 'xml-sitemap/options'
 require 'xml-sitemap/map'
