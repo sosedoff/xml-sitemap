@@ -1,3 +1,4 @@
+require 'benchmark'
 require 'spec_helper'
 
 describe XmlSitemap::Map do
@@ -52,6 +53,20 @@ describe XmlSitemap::Map do
     map.add('world', :updated => @extra_time).updated.should == Time.gm(2011, 7, 1, 0, 0, 1)
   end
   
+  it 'should help me test performance' do
+    pending "comment this line to run benchmarks, takes roughly 30 seconds"
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    50000.times do |i|
+      map.add("hello#{i}")
+    end
+    
+    Benchmark.bm do |x|
+      x.report("render")            { map.render }
+      x.report("render(:nokogiri)") { map.render(:nokogiri) }
+      x.report("render(:string)")   { map.render(:string)   }
+    end
+  end
+  
   it 'should raise Argument error if no time or date were provided' do
     map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
     proc { map.add('hello', :updated => 5) }.
@@ -83,11 +98,27 @@ describe XmlSitemap::Map do
     map.render.should == fixture('encoded_map.xml')
   end
   
+  it 'should have properly encoded entities using nokogiri render' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    map.add('/path?a=b&c=d&e=sample string')
+    s = map.render(:nokogiri)
+    # ignore ordering of urlset attributes by dropping first two lines
+    s.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
+  end
+  
+  it 'should have properly encoded entities using string render' do
+    map = XmlSitemap::Map.new('foobar.com', :time => @base_time)
+    map.add('/path?a=b&c=d&e=sample string')
+    s = map.render(:string)
+    # ignore ordering of urlset attributes by dropping first two lines
+    s.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
+  end
+  
   it 'should not allow more than 50k records' do
     map = XmlSitemap::Map.new('foobar.com')
     proc {
-      1.upto(50000) { |i| map.add("url#{i}") }
-    }.should raise_error RuntimeError, 'Only less than 50k records allowed!'
+      1.upto(50001) { |i| map.add("url#{i}") }
+    }.should raise_error RuntimeError, 'Only up to 50k records allowed!'
   end
   
   it 'should not allow urls longer than 2048 characters' do

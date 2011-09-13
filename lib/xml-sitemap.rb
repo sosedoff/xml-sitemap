@@ -2,6 +2,7 @@ require 'time'
 require 'date'
 require 'zlib'
 require 'builder'
+require 'nokogiri'
 
 require 'xml-sitemap/options'
 require 'xml-sitemap/map'

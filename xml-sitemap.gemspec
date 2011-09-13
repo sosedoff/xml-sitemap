@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov', '~> 0.4'
   
   s.add_runtime_dependency      'builder',  '>= 2.0'
+  s.add_runtime_dependency      'nokogiri', '~> 1.5.0'
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
