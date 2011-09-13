@@ -132,13 +132,11 @@ module XmlSitemap
         item_results = []
         @items.each do |item|
           item_string  = "  <url>\n"
-          item_string += "    <loc>#{item.target}</loc>\n"
+          item_string += "    <loc>#{CGI::escapeHTML(item.target)}</loc>\n"
           item_string += "    <lastmod>#{item.lastmod_value}</lastmod>\n"
           item_string += "    <changefreq>#{item.changefreq}</changefreq>\n"
           item_string += "    <priority>#{item.priority}</priority>\n"
           item_string += "  </url>\n"
-          
-          item_string.gsub!(/&/, "&amp;")
           
           item_results << item_string
         end
