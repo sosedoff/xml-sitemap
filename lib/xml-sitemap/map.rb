@@ -34,12 +34,6 @@ module XmlSitemap
       yield self if block_given?
     end
     
-    # Yields Map class for easier access
-    def generate
-      raise ArgumentError, 'Block required' unless block_given?
-      yield self
-    end
-    
     # Adds a new item to the map
     #
     # target - Path or url
