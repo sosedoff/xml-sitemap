@@ -6,7 +6,18 @@ module XmlSitemap
     attr_reader   :root
     attr_reader   :group
     
-    # Creates new Map class for specified domain
+    # Initializa a new Map instance
+    #
+    # domain - Primary domain for the map (required)
+    # opts   - Map options
+    #
+    # opts[:home]   - Automatic homepage creation. To disable set to false. (default: true)
+    # opts[:secure] - Force HTTPS for all items. (default: false)
+    # opts[:time]   - Set default lastmod timestamp for items (default: current time)
+    # opts[:group]  - Group name for sitemap index. (default: sitemap)
+    # opts[:root]   - Force all links to fall under the main domain.
+    #                 You can add full urls (not paths) if set to false. (default: true)
+    #
     def initialize(domain, opts={})
       @domain     = domain.to_s.strip
       raise ArgumentError, 'Domain required!' if @domain.empty?
@@ -29,7 +40,16 @@ module XmlSitemap
       yield self
     end
     
-    # Add new item to sitemap list
+    # Adds a new item to the map
+    #
+    # target - Path or url
+    # opts   - Item options
+    #
+    # opts[:updated]       - Lastmod property of the item
+    # opts[:period]        - Update frequency. (default - :weekly)
+    # opts[:priority]      - Item priority. (default: 0.5)
+    # opts[:validate_time] - Skip time validation if want to insert raw strings.
+    # 
     def add(target, opts={})
       raise RuntimeError, 'Only less than 50k records allowed!' if @items.size >= 50000
       raise ArgumentError, 'Target required!' if target.nil?
@@ -48,26 +68,31 @@ module XmlSitemap
     end
     
     # Get map items count
+    #
     def size
       @items.size
     end
     
     # Returns true if sitemap does not have any items
+    #
     def empty?
       @items.empty?
     end
     
     # Generate full url for path
+    #
     def url(path='')
       "#{@secure ? 'https' : 'http'}://#{@domain}#{path}"
     end
     
     # Get full url for index
+    #
     def index_url(offset)
       "http://#{@domain}/#{@group}-#{offset}.xml"
     end
     
     # Render XML
+    #
     def render
       xml = Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
@@ -84,6 +109,7 @@ module XmlSitemap
     end
     
     # Render XML sitemap into the file
+    #
     def render_to(path, options={})
       overwrite = options[:overwrite] == true || true
       compress  = options[:gzip]      == true || false
@@ -109,6 +135,7 @@ module XmlSitemap
     protected
   
     # Process target path or url
+    #
     def process_target(str)
       if @root == true
         url(str =~ /^\// ? str : "/#{str}")
