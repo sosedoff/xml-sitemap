@@ -21,7 +21,8 @@ module XmlSitemap
       if @validate_time && @updated.kind_of?(String) && !(@updated =~ ISO8601_REGEX)
         raise ArgumentError, "String provided to :updated did not match ISO8601 standard!"
       end
-      
+
+      @changefreq = @changefreq.to_sym
       unless XmlSitemap::PERIODS.include?(@changefreq)
         raise ArgumentError, "Invalid :period value '#{@changefreq}'"
       end
