@@ -45,7 +45,7 @@ module XmlSitemap
     # opts[:validate_time] - Skip time validation if want to insert raw strings.
     # 
     def add(target, opts={})
-      raise RuntimeError, 'Only less than 50k records allowed!' if @items.size >= 50000
+      raise RuntimeError, 'Only up to 50k records allowed!' if @items.size > 50000
       raise ArgumentError, 'Target required!' if target.nil?
       raise ArgumentError, 'Target is empty!' if target.to_s.strip.empty?
       
@@ -87,19 +87,62 @@ module XmlSitemap
     
     # Render XML
     #
-    def render
-      xml = Builder::XmlMarkup.new(:indent => 2)
-      xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
-      xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
-        @items.each do |item|
-          s.url do |u|
-            u.loc        item.target
-            u.lastmod    item.lastmod_value
-            u.changefreq item.changefreq.to_s
-            u.priority   item.priority.to_s
-          end
+    def render(method = :string)
+      case method
+      when :nokogiri
+        unless defined? Nokogiri
+          raise ArgumentError, "Nokogiri not found!"
         end
-      }.to_s
+        builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
+          xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
+            @items.each do |item|
+              s.url do |u|
+                u.loc        item.target
+                u.lastmod    item.lastmod_value
+                u.changefreq item.changefreq.to_s
+                u.priority   item.priority.to_s
+              end
+            end
+          }
+        end
+        builder.to_xml
+      when :builder
+        xml = Builder::XmlMarkup.new(:indent => 2)
+        xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
+        xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
+          @items.each do |item|
+            s.url do |u|
+              u.loc        item.target
+              u.lastmod    item.lastmod_value
+              u.changefreq item.changefreq.to_s
+              u.priority   item.priority.to_s
+            end
+          end
+        }.to_s
+      else # :string is default
+        result = '<?xml version="1.0" encoding="UTF-8"?>' + "\n<urlset"
+        
+        XmlSitemap::MAP_SCHEMA_OPTIONS.each do |key, val|
+          result += ' ' + key + '="' + val + '"'
+        end
+        
+        result += ">\n"
+        
+        item_results = []
+        @items.each do |item|
+          item_string  = "  <url>\n"
+          item_string += "    <loc>#{CGI::escapeHTML(item.target)}</loc>\n"
+          item_string += "    <lastmod>#{item.lastmod_value}</lastmod>\n"
+          item_string += "    <changefreq>#{item.changefreq}</changefreq>\n"
+          item_string += "    <priority>#{item.priority}</priority>\n"
+          item_string += "  </url>\n"
+          
+          item_results << item_string
+        end
+        
+        result = result + item_results.join("") + "</urlset>\n"
+        result
+      end
     end
     
     # Render XML sitemap into the file
