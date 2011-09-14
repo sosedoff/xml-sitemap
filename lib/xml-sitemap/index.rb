@@ -25,7 +25,7 @@ module XmlSitemap
     def render
       xml = Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
-      xml.urlset(XmlSitemap::INDEX_SCHEMA_OPTIONS) { |s|
+      xml.sitemapindex(XmlSitemap::INDEX_SCHEMA_OPTIONS) { |s|
         @maps.each do |item|
           s.sitemap do |m|
             m.loc        item[:loc]
