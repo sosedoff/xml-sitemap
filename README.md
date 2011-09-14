@@ -114,6 +114,11 @@ index.render
 index.render_to('/path/to/file.xml')
 ```
 
+## Authors & Contributors
+
+- [Dan Sosedoff](https://github.com/sosedoff) (author)
+- [Dan Healy](https://github.com/danhealy)
+
 ## License
 
 Copyright &copy; 2010-2011 Dan Sosedoff.
