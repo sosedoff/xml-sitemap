@@ -105,6 +105,12 @@ module XmlSitemap
     
     # Render XML sitemap into the file
     #
+    # path    - Output filename
+    # options - Options hash
+    #
+    # options[:overwrite] - Overwrite the file contents (default: true)
+    # options[:gzip]      - Gzip file contents (default: false)
+    #
     def render_to(path, options={})
       overwrite = options[:overwrite] == true || true
       compress  = options[:gzip]      == true || false
