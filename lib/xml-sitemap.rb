@@ -2,6 +2,7 @@ require 'time'
 require 'date'
 require 'zlib'
 require 'builder'
+require 'cgi'
 begin
   require 'nokogiri'
 rescue LoadError
