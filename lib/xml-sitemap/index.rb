@@ -2,6 +2,8 @@ module XmlSitemap
   class Index
     attr_reader :maps
     
+    # Initialize a new Index instance
+    #
     def initialize(opts={})
       @maps     = []
       @offsets  = Hash.new(0)
@@ -10,6 +12,9 @@ module XmlSitemap
     end
     
     # Add map object to index
+    #
+    # map - XmlSitemap::Map instance
+    #
     def add(map)
       raise ArgumentError, 'XmlSitemap::Map object requred!' unless map.kind_of?(XmlSitemap::Map)
       raise ArgumentError, 'Map is empty!' if map.empty?
@@ -22,6 +27,7 @@ module XmlSitemap
     end
     
     # Generate sitemap XML index
+    #
     def render
       xml = Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
@@ -36,8 +42,14 @@ module XmlSitemap
     end
     
     # Render XML sitemap index into the file
-    def render_to(path, opts={})
-      overwrite = opts[:overwrite] || true
+    #
+    # path    - Output filename
+    # options - Options hash
+    #
+    # options[:ovewrite] - Overwrite file contents (default: true)
+    #
+    def render_to(path, options={})
+      overwrite = options[:overwrite] || true
       path = File.expand_path(path)
       
       if File.exists?(path) && !overwrite
