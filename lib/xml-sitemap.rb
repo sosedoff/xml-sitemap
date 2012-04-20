@@ -8,6 +8,7 @@ begin
 rescue LoadError
 end
 
+require 'xml-sitemap/version'
 require 'xml-sitemap/options'
 require 'xml-sitemap/render_engine'
 require 'xml-sitemap/item'

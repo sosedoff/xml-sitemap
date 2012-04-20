@@ -9,4 +9,8 @@ describe 'XmlSitemap' do
   it 'creates an Index via shortcut' do
     XmlSitemap.index.should be_a XmlSitemap::Index
   end
+
+  it 'has defined version' do
+    proc { XmlSitemap::VERSION }.should_not raise_error
+  end
 end

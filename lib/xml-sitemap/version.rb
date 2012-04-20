@@ -1,3 +1,5 @@
 module XmlSitemap
-  VERSION = '1.2.2'
+  unless defined?(::XmlSitemap::VERSION)
+    VERSION = '1.2.2'
+  end
 end

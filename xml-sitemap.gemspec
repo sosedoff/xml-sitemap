@@ -2,7 +2,7 @@ require File.expand_path('../lib/xml-sitemap/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "xml-sitemap"
-  s.version     = XmlSitemap::VERSION.dup
+  s.version     = XmlSitemap::VERSION
   s.summary     = "Simple XML sitemap generator for Ruby/Rails applications."
   s.description = "Provides a wrapper to generate XML sitemaps and sitemap indexes."
   s.homepage    = "http://github.com/sosedoff/xml-sitemap"
