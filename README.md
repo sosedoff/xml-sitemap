@@ -1,6 +1,6 @@
-# XmlSitemap
+# XmlSitemap [![Build Status](https://secure.travis-ci.org/sosedoff/xml-sitemap.png?branch=master)](http://travis-ci.org/sosedoff/xml-sitemap)
 
-XmlSitemap is a Ruby library that provides an easy way to generate XML sitemaps and indexes.
+XmlSitemap is a ruby library that provides an easy way to generate XML sitemaps and indexes.
 
 It does not have any web-framework dependencies and could be used in any ruby-based application.
 
@@ -8,7 +8,15 @@ It does not have any web-framework dependencies and could be used in any ruby-ba
 
 Install via rubygems:
 
-    $ gem install xml-sitemap
+```
+gem install xml-sitemap
+```
+
+Or using latest source code:
+
+```
+rake install
+```
   
 ## Configuration
 
@@ -36,7 +44,11 @@ map = XmlSitemap::Map.new('domain.com') do |m|
   # Specify last modification date and update frequiency
   m.add 'page4', :updated => Date.today, :period => :never
 end
+```
 
+Render map output:
+
+```ruby
 # Render the sitemap XML
 map.render
 
@@ -59,20 +71,22 @@ map = XmlSitemap.new('foobar.com')
 map = XmlSitemap.map('foobar.com')
 ```
   
-By default XmlSitemap creates a map with link to homepage of your domain. It's a priority 1.0. Default priority is 0.5.
+By default XmlSitemap creates a map with link to homepage of your domain. 
 
-List of periods:
+Homepage priority is ```1.0```. Default page priority is set to ```0.5```
 
-- :none,
-- :always
-- :hourly
-- :daily
-- :weekly
-- :monthly
-- :yearly
-- :never
+List of available update periods:
 
-## XmlSitemap::Map
+- ```:none```
+- ```:always```
+- ```:hourly```
+- ```:daily```
+- ```:weekly```
+- ```:monthly```
+- ```:yearly```
+- ```:never```
+
+### XmlSitemap::Map
 
 When creating a new map object, you can specify a set of options.
 
@@ -82,13 +96,13 @@ map = XmlSitemap::Map.new('mydomain.com', options)
 
 Available options:
 
-- :secure - Will add all sitemap items with https prefix. *(default: false)*
-- :home   - Disable homepage autocreation, but you still can do that manually. *(default: true)*
-- :root   - Force all links to fall under the main domain. You can add full urls (not paths) if set to false. *(default: true)*
-- :time   - Provide a creation time for the sitemap. (default: current time)
-- :group  - Group name for sitemap index. *(default: sitemap)* 
+- ```:secure``` - Will add all sitemap items with https prefix. *(default: false)*
+- ```:home```   - Disable homepage autocreation, but you still can do that manually. *(default: true)*
+- ```:root```   - Force all links to fall under the main domain. You can add full urls (not paths) if set to false. *(default: true)*
+- ```:time```   - Provide a creation time for the sitemap. (default: current time)
+- ```:group```  - Group name for sitemap index. *(default: sitemap)* 
 
-## XmlSitemap::Index
+### XmlSitemap::Index
 
 Regular sitemap does not support more than 50k records, so if you're generating a huge sitemap you need to use XmlSitemap::Index.
 
@@ -101,6 +115,7 @@ map = XmlSitemap::Map.new('domain.com')
 map.add 'page'
     
 index = XmlSitemap::Index.new
+
 # or via shortcut
 index = XmlSitemap.index
 
@@ -114,14 +129,9 @@ index.render
 index.render_to('/path/to/file.xml')
 ```
 
-## Authors & Contributors
-
-- [Dan Sosedoff](https://github.com/sosedoff) (author)
-- [Dan Healy](https://github.com/danhealy)
-
 ## License
 
-Copyright &copy; 2010-2011 Dan Sosedoff.
+Copyright &copy; 2010-2012 Dan Sosedoff.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
