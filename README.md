@@ -86,7 +86,7 @@ List of available update periods:
 - ```:yearly```
 - ```:never```
 
-### XmlSitemap::Map
+### Generating Maps
 
 When creating a new map object, you can specify a set of options.
 
@@ -102,7 +102,17 @@ Available options:
 - ```:time```   - Provide a creation time for the sitemap. (default: current time)
 - ```:group```  - Group name for sitemap index. *(default: sitemap)* 
 
-### XmlSitemap::Index
+### Render Engines
+
+XmlSitemap has a few different rendering engines. You can select one passing argument to ```render``` method. 
+
+Available engines:
+
+- ```:string``` - Uses plain strings (for performance). Default.
+- ```:builder``` - Uses Builder::XmlMarkup.
+- ```:nokogiri``` - Uses Nokogiri library. Requires ```nokogiri``` gem.
+
+### Sitemap Indexes
 
 Regular sitemap does not support more than 50k records, so if you're generating a huge sitemap you need to use XmlSitemap::Index.
 
