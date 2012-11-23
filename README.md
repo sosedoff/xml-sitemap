@@ -73,18 +73,18 @@ map = XmlSitemap.map('foobar.com')
   
 By default XmlSitemap creates a map with link to homepage of your domain. 
 
-Homepage priority is ```1.0```. Default page priority is set to ```0.5```
+Homepage priority is `1.0`. Default page priority is set to `0.5`
 
 List of available update periods:
 
-- ```:none```
-- ```:always```
-- ```:hourly```
-- ```:daily```
-- ```:weekly```
-- ```:monthly```
-- ```:yearly```
-- ```:never```
+- `:none`
+- `:always`
+- `:hourly`
+- `:daily`
+- `:weekly`
+- `:monthly`
+- `:yearly`
+- `:never`
 
 ### Generating Maps
 
@@ -96,21 +96,21 @@ map = XmlSitemap::Map.new('mydomain.com', options)
 
 Available options:
 
-- ```:secure``` - Will add all sitemap items with https prefix. *(default: false)*
-- ```:home```   - Disable homepage autocreation, but you still can do that manually. *(default: true)*
-- ```:root```   - Force all links to fall under the main domain. You can add full urls (not paths) if set to false. *(default: true)*
-- ```:time```   - Provide a creation time for the sitemap. (default: current time)
-- ```:group```  - Group name for sitemap index. *(default: sitemap)* 
+- `:secure` - Will add all sitemap items with https prefix. *(default: false)*
+- `:home`   - Disable homepage autocreation, but you still can do that manually. *(default: true)*
+- `:root`   - Force all links to fall under the main domain. You can add full urls (not paths) if set to false. *(default: true)*
+- `:time`   - Provide a creation time for the sitemap. (default: current time)
+- `:group`  - Group name for sitemap index. *(default: sitemap)* 
 
 ### Render Engines
 
-XmlSitemap has a few different rendering engines. You can select one passing argument to ```render``` method. 
+XmlSitemap has a few different rendering engines. You can select one passing argument to `render` method. 
 
 Available engines:
 
-- ```:string``` - Uses plain strings (for performance). Default.
-- ```:builder``` - Uses Builder::XmlMarkup.
-- ```:nokogiri``` - Uses Nokogiri library. Requires ```nokogiri``` gem.
+- `:string` - Uses plain strings (for performance). Default.
+- `:builder` - Uses Builder::XmlMarkup.
+- `:nokogiri` - Uses Nokogiri library. Requires `nokogiri` gem.
 
 ### Sitemap Indexes
 
