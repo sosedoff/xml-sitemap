@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe XmlSitemap::Index do
-  before :all do
-    @base_time = Time.gm(2011, 6, 1, 0, 0, 1)
-  end
+  let(:base_time) { Time.gm(2011, 6, 1, 0, 0, 1) }
   
   it 'should be valid if no sitemaps were supplied' do
     index = XmlSitemap::Index.new
@@ -22,8 +20,8 @@ describe XmlSitemap::Index do
   end
   
   it 'should render a proper index' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => @base_time) { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => @base_time) { |m| m.add('about') }
+    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
     
     index = XmlSitemap::Index.new do |i|
       i.add(m1)
@@ -34,8 +32,8 @@ describe XmlSitemap::Index do
   end
   
   it 'should save index contents to the filesystem' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => @base_time) { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => @base_time) { |m| m.add('about') }
+    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
     
     index = XmlSitemap::Index.new do |i|
       i.add(m1)
@@ -49,10 +47,10 @@ describe XmlSitemap::Index do
   end
   
   it 'should have separate running offsets for different map groups' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "first")  { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "second") { |m| m.add('about') }
-    m3 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "second") { |m| m.add('about') }
-    m4 = XmlSitemap::Map.new('foobar.com', :time => @base_time, :group => "third")  { |m| m.add('about') }
+    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "first")  { |m| m.add('about') }
+    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "second") { |m| m.add('about') }
+    m3 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "second") { |m| m.add('about') }
+    m4 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "third")  { |m| m.add('about') }
     
     index = XmlSitemap::Index.new do |i|
       i.add(m1)
@@ -66,5 +64,4 @@ describe XmlSitemap::Index do
     File.read(path).should == fixture('group_index.xml')
     File.delete(path) if File.exists?(path)
   end
-  
 end
