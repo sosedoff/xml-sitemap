@@ -2,66 +2,70 @@ require 'spec_helper'
 
 describe XmlSitemap::Index do
   let(:base_time) { Time.gm(2011, 6, 1, 0, 0, 1) }
+
+  describe '#new' do
+    it 'should be valid if no sitemaps were supplied' do
+      index = XmlSitemap::Index.new
+      index.render.should == fixture('empty_index.xml')
+    end
   
-  it 'should be valid if no sitemaps were supplied' do
-    index = XmlSitemap::Index.new
-    index.render.should == fixture('empty_index.xml')
+    it 'should raise error if passing a wrong object' do
+      index = XmlSitemap::Index.new
+      expect { index.add(nil) }.to raise_error ArgumentError, 'XmlSitemap::Map object requred!'
+    end
+  
+    it 'should raise error if passing an empty sitemap' do
+      map = XmlSitemap::Map.new('foobar.com', :home => false)
+      index = XmlSitemap::Index.new
+      expect { index.add(map) }.to raise_error ArgumentError, 'Map is empty!'
+    end
   end
-  
-  it 'should raise error if passing a wrong object' do
-    index = XmlSitemap::Index.new
-    proc { index.add(nil) }.should raise_error ArgumentError, 'XmlSitemap::Map object requred!'
-  end
-  
-  it 'should raise error if passing an empty sitemap' do
-    map = XmlSitemap::Map.new('foobar.com', :home => false)
-    index = XmlSitemap::Index.new
-    proc { index.add(map) }.should raise_error ArgumentError, 'Map is empty!'
-  end
-  
-  it 'should render a proper index' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+
+  describe '#render' do
+    it 'renders a proper index' do
+      m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
     
-    index = XmlSitemap::Index.new do |i|
-      i.add(m1)
-      i.add(m2)
+      index = XmlSitemap::Index.new do |i|
+        i.add(m1)
+        i.add(m2)
+      end
+    
+      index.render.should == fixture('sample_index.xml')
+    end
+  end
+
+  describe '#render_to' do
+    let(:index_path) { "/tmp/xml_index.xml" }
+
+    after :all do
+      File.delete_if_exists(index_path)
+    end
+
+    it 'saves index contents to the filesystem' do
+      m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      
+      index = XmlSitemap::Index.new do |i|
+        i.add(m1)
+        i.add(m2)
+      end
+      
+      index.render_to(index_path)
+      File.read(index_path).should eq(fixture('sample_index.xml'))
     end
     
-    index.render.should == fixture('sample_index.xml')
-  end
-  
-  it 'should save index contents to the filesystem' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
-    
-    index = XmlSitemap::Index.new do |i|
-      i.add(m1)
-      i.add(m2)
+    it 'should have separate running offsets for different map groups' do
+      maps = %w(first second second third).map do |name|
+        XmlSitemap::Map.new('foobar.com', :time => base_time, :group => name)  { |m| m.add('about') }
+      end
+      
+      index = XmlSitemap::Index.new do |i|
+        maps.each { |m| i.add(m) }
+      end
+      
+      index.render_to(index_path)
+      File.read(index_path).should eq(fixture('group_index.xml'))
     end
-    
-    path = "/tmp/index_#{Time.now.to_i}.xml"
-    index.render_to(path)
-    File.read(path).should == fixture('sample_index.xml')
-    File.delete(path) if File.exists?(path)
-  end
-  
-  it 'should have separate running offsets for different map groups' do
-    m1 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "first")  { |m| m.add('about') }
-    m2 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "second") { |m| m.add('about') }
-    m3 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "second") { |m| m.add('about') }
-    m4 = XmlSitemap::Map.new('foobar.com', :time => base_time, :group => "third")  { |m| m.add('about') }
-    
-    index = XmlSitemap::Index.new do |i|
-      i.add(m1)
-      i.add(m2)
-      i.add(m3)
-      i.add(m4)
-    end
-    
-    path = "/tmp/index_#{Time.now.to_i}.xml"
-    index.render_to(path)
-    File.read(path).should == fixture('group_index.xml')
-    File.delete(path) if File.exists?(path)
   end
 end

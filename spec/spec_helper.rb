@@ -29,3 +29,13 @@ def gunzip(path)
   end
   contents
 end
+
+module FileHelper
+  def delete_if_exists(path)
+    File.delete(path) if File.exists?(path)
+  end
+end
+
+class File
+  extend FileHelper
+end
