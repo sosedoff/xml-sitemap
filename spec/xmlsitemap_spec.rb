@@ -1,16 +1,27 @@
 require 'spec_helper'
 
 describe 'XmlSitemap' do
-  it 'creates a Map via shortcut' do
-    XmlSitemap.new('foo.com').should be_a XmlSitemap::Map
-    XmlSitemap.map('foo.com').should be_a XmlSitemap::Map
-  end
-  
-  it 'creates an Index via shortcut' do
-    XmlSitemap.index.should be_a XmlSitemap::Index
+  describe '#new' do
+    it 'returns a new map instance' do
+      XmlSitemap.new('foo.com').should be_a XmlSitemap::Map
+    end
   end
 
-  it 'has defined version' do
-    proc { XmlSitemap::VERSION }.should_not raise_error
+  describe '#map' do
+    it 'returns a new map instance' do
+      XmlSitemap.map('foo.com').should be_a XmlSitemap::Map
+    end
+  end
+
+  describe '#index' do
+    it 'returns a new index instancet' do
+      XmlSitemap.index.should be_a XmlSitemap::Index
+    end
+  end
+
+  describe '#version' do
+    it 'returns current version string' do
+      XmlSitemap.version.should eq(XmlSitemap::VERSION)
+    end
   end
 end
