@@ -98,10 +98,42 @@ describe XmlSitemap::Map do
   end
 
   describe '#render' do
+
+    before do
+      opts1 = { :image_location => "http://foobar.com/foo.gif"}
+      opts2 = { :image_location => "http://foobar.com/foo.gif", :image_title => "Image Title"}
+      opts3 = { :image_location => "http://foobar.com/foo.gif", :image_caption => "Image Caption"}
+      opts4 = { :image_location => "http://foobar.com/foo.gif", :image_license => "Image License"}
+      opts5 = { :image_location => "http://foobar.com/foo.gif", :image_geolocation => "Image GeoLocation"}
+      opts6 = { :image_location => "http://foobar.com/foo.gif",
+                :image_title    => "Image Title",
+                :image_caption  => "Image Caption",
+                :image_license  => "Image License",
+                :image_geolocation => "Image GeoLocation"}
+
+      @map = XmlSitemap::Map.new('foobar.com', :time => base_time)
+      @map.add('/path?a=b&c=d&e=image support string', opts1)
+      @map.add('/path?a=b&c=d&e=image support string', opts2)
+      @map.add('/path?a=b&c=d&e=image support string', opts3)
+      @map.add('/path?a=b&c=d&e=image support string', opts4)
+      @map.add('/path?a=b&c=d&e=image support string', opts5)
+      @map.add('/path?a=b&c=d&e=image support string', opts6)
+    end
+
     it 'should have properly encoded entities' do
       map = XmlSitemap::Map.new('foobar.com', :time => base_time)
       map.add('/path?a=b&c=d&e=sample string')
-      map.render.should eq(fixture('encoded_map.xml'))
+      map.render.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
+    end
+
+    context 'with builder engine' do
+      it 'should have properly encoded entities' do
+        map = XmlSitemap::Map.new('foobar.com', :time => base_time)
+        map.add('/path?a=b&c=d&e=sample string')
+        s = map.render(:builder)
+        # ignore ordering of urlset attributes by dropping first two lines
+        s.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
+      end
     end
 
     context 'with nokogiri engine' do
@@ -111,6 +143,11 @@ describe XmlSitemap::Map do
         s = map.render(:nokogiri)
         # ignore ordering of urlset attributes by dropping first two lines
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
+      end
+
+      it 'should have properly encoded entities with image support' do
+        s = @map.render(:nokogiri)
+        s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
       end
     end
 
@@ -124,26 +161,7 @@ describe XmlSitemap::Map do
       end
 
       it 'should have properly encoded entities with image support' do
-        opts1 = { :image_location => "http://foobar.com/foo.gif"}
-        opts2 = { :image_location => "http://foobar.com/foo.gif", :image_title => "Image Title"}
-        opts3 = { :image_location => "http://foobar.com/foo.gif", :image_caption => "Image Caption"}
-        opts4 = { :image_location => "http://foobar.com/foo.gif", :image_license => "Image License"}
-        opts5 = { :image_location => "http://foobar.com/foo.gif", :image_geolocation => "Image GeoLocation"}
-        opts6 = { :image_location => "http://foobar.com/foo.gif",
-                  :image_title    => "Image Title",
-                  :image_caption  => "Image Caption",
-                  :image_license  => "Image License",
-                  :image_geolocation => "Image GeoLocation"}
-
-        map = XmlSitemap::Map.new('foobar.com', :time => base_time)
-        map.add('/path?a=b&c=d&e=image support string', opts1)
-        map.add('/path?a=b&c=d&e=image support string', opts2)
-        map.add('/path?a=b&c=d&e=image support string', opts3)
-        map.add('/path?a=b&c=d&e=image support string', opts4)
-        map.add('/path?a=b&c=d&e=image support string', opts5)
-        map.add('/path?a=b&c=d&e=image support string', opts6)
-        s = map.render(:string)
-
+        s = @map.render(:string)
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
       end
     end
@@ -160,7 +178,7 @@ describe XmlSitemap::Map do
 
       map.render_to(path)
 
-      File.read(path).should eq(fixture('saved_map.xml'))
+      File.read(path).split("\n")[2..-1].join("\n").should eq(fixture('saved_map.xml').split("\n")[2..-1].join("\n"))
       File.delete(path) if File.exists?(path)
     end
 

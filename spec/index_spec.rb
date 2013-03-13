@@ -6,14 +6,14 @@ describe XmlSitemap::Index do
   describe '#new' do
     it 'should be valid if no sitemaps were supplied' do
       index = XmlSitemap::Index.new
-      index.render.should == fixture('empty_index.xml')
+      index.render.split("\n")[2..-1].join("\n").should == fixture('empty_index.xml').split("\n")[2..-1].join("\n")
     end
-  
+
     it 'should raise error if passing a wrong object' do
       index = XmlSitemap::Index.new
       expect { index.add(nil) }.to raise_error ArgumentError, 'XmlSitemap::Map object requred!'
     end
-  
+
     it 'should raise error if passing an empty sitemap' do
       map = XmlSitemap::Map.new('foobar.com', :home => false)
       index = XmlSitemap::Index.new
@@ -25,13 +25,13 @@ describe XmlSitemap::Index do
     it 'renders a proper index' do
       m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
       m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
-    
+
       index = XmlSitemap::Index.new do |i|
         i.add(m1)
         i.add(m2)
       end
-    
-      index.render.should == fixture('sample_index.xml')
+
+      index.render.split("\n")[2..-1].join("\n").should == fixture('sample_index.xml').split("\n")[2..-1].join("\n")
     end
   end
 
@@ -45,27 +45,27 @@ describe XmlSitemap::Index do
     it 'saves index contents to the filesystem' do
       m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
       m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
-      
+
       index = XmlSitemap::Index.new do |i|
         i.add(m1)
         i.add(m2)
       end
-      
+
       index.render_to(index_path)
-      File.read(index_path).should eq(fixture('sample_index.xml'))
+      File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('sample_index.xml').split("\n")[2..-1].join("\n"))
     end
-    
+
     it 'should have separate running offsets for different map groups' do
       maps = %w(first second second third).map do |name|
         XmlSitemap::Map.new('foobar.com', :time => base_time, :group => name)  { |m| m.add('about') }
       end
-      
+
       index = XmlSitemap::Index.new do |i|
         maps.each { |m| i.add(m) }
       end
-      
+
       index.render_to(index_path)
-      File.read(index_path).should eq(fixture('group_index.xml'))
+      File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('group_index.xml').split("\n")[2..-1].join("\n"))
     end
   end
 end
