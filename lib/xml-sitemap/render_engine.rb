@@ -9,7 +9,7 @@ module XmlSitemap
         raise ArgumentError, "Nokogiri not found!"
       end
       builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
-        xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS, "xmlns:image" => "") { |s|
+        xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
           @items.each do |item|
             s.url do |u|
               u.loc        item.target
