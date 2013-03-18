@@ -5,15 +5,22 @@ module XmlSitemap
     # ISO8601 regex from here: http://www.pelagodesign.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/
     ISO8601_REGEX = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/
 
-    attr_reader :target, :updated, :priority, :changefreq, :validate_time
+    attr_reader :target, :updated, :priority, :changefreq, :validate_time, :image_location, :image_caption, :image_geolocation, :image_title, :image_license
 
     def initialize(target, opts={})
-      @target         = target.to_s.strip
-      @updated        = opts[:updated]  || Time.now
-      @priority       = opts[:priority] || DEFAULT_PRIORITY
-      @changefreq     = opts[:period]   || :weekly
-      @validate_time  = (opts[:validate_time] != false)
-      
+      @target            = target.to_s.strip
+      @updated           = opts[:updated]  || Time.now
+      @priority          = opts[:priority] || DEFAULT_PRIORITY
+      @changefreq        = opts[:period]   || :weekly
+      @validate_time     = (opts[:validate_time] != false)
+
+      # Refer to http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636 for requirement to support images in sitemap
+      @image_location    = opts[:image_location]
+      @image_caption     = opts[:image_caption]
+      @image_geolocation = opts[:image_geolocation]
+      @image_title       = opts[:image_title]
+      @image_license     = opts[:image_license]
+
       unless @updated.kind_of?(Time) || @updated.kind_of?(Date) || @updated.kind_of?(String)
         raise ArgumentError, "Time, Date, or ISO8601 String required for :updated!"
       end
