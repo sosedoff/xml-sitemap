@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://foobar.com/</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+      <image:title>Image Title</image:title>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+      <image:caption>Image Caption</image:caption>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+      <image:license>Image License</image:license>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+      <image:geo_location>Image GeoLocation</image:geo_location>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
+    <image:image>
+      <image:loc>http://foobar.com/foo.gif</image:loc>
+      <image:caption>Image Caption</image:caption>
+      <image:title>Image Title</image:title>
+      <image:license>Image License</image:license>
+      <image:geo_location>Image GeoLocation</image:geo_location>
+    </image:image>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
