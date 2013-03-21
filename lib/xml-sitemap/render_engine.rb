@@ -8,6 +8,7 @@ module XmlSitemap
       unless defined? Nokogiri
         raise ArgumentError, "Nokogiri not found!"
       end
+
       builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
         xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
           @items.each do |item|
@@ -39,6 +40,7 @@ module XmlSitemap
     def render_builder
       xml = Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!(:xml, :version => '1.0', :encoding => 'UTF-8')
+
       xml.urlset(XmlSitemap::MAP_SCHEMA_OPTIONS) { |s|
         @items.each do |item|
           s.url do |u|
@@ -46,11 +48,11 @@ module XmlSitemap
 
             if item.image_location
               u.image :image do |a|
-                a.tag!("image:loc")           {|b| b.text! item.image_location}
-                a.tag!("image:caption")       {|b| b.text! item.image_caption}        if item.image_caption
-                a.tag!("image:title")         {|b| b.text! item.image_title}          if item.image_title
-                a.tag!("image:license")       {|b| b.text! item.image_license}        if item.image_license
-                a.tag!("image:geo_location")  {|b| b.text! item.image_geolocation}    if item.image_geolocation
+                a.tag!("image:loc")           { |b| b.text! item.image_location }
+                a.tag!("image:caption")       { |b| b.text! item.image_caption }        if item.image_caption
+                a.tag!("image:title")         { |b| b.text! item.image_title }          if item.image_title
+                a.tag!("image:license")       { |b| b.text! item.image_license }        if item.image_license
+                a.tag!("image:geo_location")  { |b| b.text! item.image_geolocation }    if item.image_geolocation
               end
             end
 
