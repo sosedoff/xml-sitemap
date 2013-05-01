@@ -83,8 +83,8 @@ module XmlSitemap
     
     # Get full url for index
     #
-    def index_url(offset)
-      "http://#{@domain}/#{@group}-#{offset}.xml"
+    def index_url(offset, secure)
+      "#{secure ? 'https' : 'http'}://#{@domain}/#{@group}-#{offset}.xml"
     end
     
     # Render XML

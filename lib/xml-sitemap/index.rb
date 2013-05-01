@@ -4,9 +4,14 @@ module XmlSitemap
     
     # Initialize a new Index instance
     #
+    # opts   - Index options
+    #
+    # opts[:secure] - Force HTTPS for all items. (default: false)
+    #
     def initialize(opts={})
       @maps     = []
       @offsets  = Hash.new(0)
+      @secure   = opts[:secure] || false
       
       yield self if block_given?
     end
@@ -20,7 +25,7 @@ module XmlSitemap
       raise ArgumentError, 'Map is empty!' if map.empty?
       
       @maps << {
-        :loc     => map.index_url(@offsets[map.group]),
+        :loc     => map.index_url(@offsets[map.group], @secure),
         :lastmod => map.created_at.utc.iso8601
       }
       @offsets[map.group] += 1
