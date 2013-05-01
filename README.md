@@ -142,6 +142,22 @@ index.render
 index.render_to('/path/to/file.xml')
 ```
 
+## Testing
+
+To execute test suite run:
+
+```
+bundle exec rake test
+```
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
 ## License
 
 Copyright (c) 2010-2013 Dan Sosedoff.
