@@ -33,6 +33,18 @@ describe XmlSitemap::Index do
 
       index.render.split("\n")[2..-1].join("\n").should == fixture('sample_index.xml').split("\n")[2..-1].join("\n")
     end
+
+    it 'renders a proper index with the secure option' do
+      m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+
+      index = XmlSitemap::Index.new(:secure => true) do |i|
+        i.add(m1)
+        i.add(m2)
+      end
+
+      index.render.split("\n")[2..-1].join("\n").should == fixture('sample_index_secure.xml').split("\n")[2..-1].join("\n")
+    end
   end
 
   describe '#render_to' do
