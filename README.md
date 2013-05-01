@@ -126,6 +126,9 @@ map.add 'page'
     
 index = XmlSitemap::Index.new
 
+# or if you want the URLs to use HTTPS
+index = XmlSitemap::Index.new(:secure => true)
+
 # or via shortcut
 index = XmlSitemap.index
 
