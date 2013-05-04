@@ -80,7 +80,7 @@ module XmlSitemap
         item_string  = "  <url>\n"
         item_string << "    <loc>#{CGI::escapeHTML(item.target)}</loc>\n"
 
-        # Format and image tag specifications found in http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636
+        # Format and image tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636
         if item.image_location
           item_string << "    <image:image>\n"
           item_string << "      <image:loc>#{CGI::escapeHTML(item.image_location)}</image:loc>\n"
@@ -91,26 +91,27 @@ module XmlSitemap
           item_string << "    </image:image>\n"
         end
 
-        if item.video_thumbnail_location && item.video_title && item.video_description
+        # Format and video tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=80472&topic=10079&ctx=topic#2
+        if item.video_thumbnail_location && item.video_title && item.video_description && (item.video_content_location || item.video_player_location)
           item_string << "    <video:video>\n"
           item_string << "      <video:thumbnail_loc>#{CGI::escapeHTML(item.video_thumbnail_location)}</video:thumbnail_loc>\n"
           item_string << "      <video:title>#{CGI::escapeHTML(item.video_title)}</video:title>\n"
           item_string << "      <video:description>#{CGI::escapeHTML(item.video_description)}</video:description>\n"
           item_string << "      <video:content_loc>#{CGI::escapeHTML(item.video_content_location)}</video:content_loc>\n"                           if item.video_content_location
           item_string << "      <video:player_loc>#{CGI::escapeHTML(item.video_player_location)}</video:player_loc>\n"                              if item.video_player_location
-          item_string << "      <video:duration>#{CGI::escapeHTML(item.video_duration)}</video:duration>\n"                                         if item.video_duration
+          item_string << "      <video:duration>#{CGI::escapeHTML(item.video_duration.to_s)}</video:duration>\n"                                    if item.video_duration
           item_string << "      <video:expiration_date>#{item.video_expiration_date_value}</video:expiration_date>\n"                               if item.video_expiration_date
-          item_string << "      <video:rating>#{CGI::escapeHTML(item.video_rating)}</video:rating>\n"                                               if item.video_rating
-          item_string << "      <video:view_count>#{CGI::escapeHTML(item.video_view_count)}</video:view_count>\n"                                   if item.video_view_count
+          item_string << "      <video:rating>#{CGI::escapeHTML(item.video_rating.to_s)}</video:rating>\n"                                          if item.video_rating
+          item_string << "      <video:view_count>#{CGI::escapeHTML(item.video_view_count.to_s)}</video:view_count>\n"                              if item.video_view_count
           item_string << "      <video:publication_date>#{item.video_publication_date_value}</video:publication_date>\n"                            if item.video_publication_date
           item_string << "      <video:family_friendly>#{CGI::escapeHTML(item.video_family_friendly)}</video:family_friendly>\n"                    if item.video_family_friendly
           item_string << "      <video:category>#{CGI::escapeHTML(item.video_category)}</video:category>\n"                                         if item.video_category
-          item_string << "      <video:restriction>#{CGI::escapeHTML(item.video_restriction)}</video:restriction>\n"                                if item.video_restriction
+          item_string << "      <video:restriction relationship=\"allow\">#{CGI::escapeHTML(item.video_restriction)}</video:restriction>\n"         if item.video_restriction
           item_string << "      <video:gallery_loc>#{CGI::escapeHTML(item.video_gallery_location)}</video:gallery_loc>\n"                           if item.video_gallery_location
-          item_string << "      <video:price>#{CGI::escapeHTML(item.video_price)}</video:price>\n"                                                  if item.video_price
+          item_string << "      <video:price currency=\"USD\">#{CGI::escapeHTML(item.video_price.to_s)}</video:price>\n"                            if item.video_price
           item_string << "      <video:requires_subscription>#{CGI::escapeHTML(item.video_requires_subscription)}</video:requires_subscription>\n"  if item.video_requires_subscription
           item_string << "      <video:uploader>#{CGI::escapeHTML(item.video_uploader)}</video:uploader>\n"                                         if item.video_uploader
-          item_string << "      <video:platform>#{CGI::escapeHTML(item.video_platform)}</video:platform>\n"                                         if item.video_platform
+          item_string << "      <video:platform relationship=\"allow\">#{CGI::escapeHTML(item.video_platform)}</video:platform>\n"                  if item.video_platform
           item_string << "      <video:live>#{CGI::escapeHTML(item.video_live)}</video:live>\n"                                                     if item.video_live
           item_string << "    </video:video>\n"
         end
@@ -125,7 +126,7 @@ module XmlSitemap
 
       result << item_results.join("")
       result << "</urlset>\n"
-      
+
       result
     end
   end

@@ -100,24 +100,56 @@ describe XmlSitemap::Map do
   describe '#render' do
 
     before do
-      opts1 = { :image_location => "http://foobar.com/foo.gif"}
-      opts2 = { :image_location => "http://foobar.com/foo.gif", :image_title => "Image Title"}
-      opts3 = { :image_location => "http://foobar.com/foo.gif", :image_caption => "Image Caption"}
-      opts4 = { :image_location => "http://foobar.com/foo.gif", :image_license => "Image License"}
-      opts5 = { :image_location => "http://foobar.com/foo.gif", :image_geolocation => "Image GeoLocation"}
+      opts1 = { :image_location => "http://foobar.com/foo.gif" }
+      opts2 = { :image_location => "http://foobar.com/foo.gif", :image_title => "Image Title" }
+      opts3 = { :image_location => "http://foobar.com/foo.gif", :image_caption => "Image Caption" }
+      opts4 = { :image_location => "http://foobar.com/foo.gif", :image_license => "Image License" }
+      opts5 = { :image_location => "http://foobar.com/foo.gif", :image_geolocation => "Image GeoLocation" }
       opts6 = { :image_location => "http://foobar.com/foo.gif",
                 :image_title    => "Image Title",
                 :image_caption  => "Image Caption",
                 :image_license  => "Image License",
-                :image_geolocation => "Image GeoLocation"}
+                :image_geolocation => "Image GeoLocation" }
+      opts7 = { :video_thumbnail_location => "http://foobar.com/foo.jpg",
+                :video_title => "Video Title",
+                :video_description => "Video Description",
+                :video_content_location => "http://foobar.com/foo.mp4" }
+      opts8 = { :video_thumbnail_location => "http://foobar.com/foo.jpg",
+                :video_title => "Video Title",
+                :video_description => "Video Description",
+                :video_player_location => "http://foobar.com/foo.swf" }
+      opts9 = { :video_thumbnail_location => "http://foobar.com/foo.jpg",
+                :video_title => "Video Title",
+                :video_description => "Video Description",
+                :video_content_location => "http://foobar.com/foo.mp4",
+                :video_player_location => "http://foobar.com/foo.swf",
+                :video_duration => 180,
+                :video_expiration_date => Time.gm(2012, 6, 1, 0, 0, 1),
+                :video_rating => 3.5,
+                :video_view_count => 2500,
+                :video_publication_date => base_time,
+                :video_family_friendly => "no",
+                :video_category => "Video Category",
+                :video_restriction => "IT",
+                :video_gallery_location => "http://foobar.com/foo.mpu",
+                :video_price => 20,
+                :video_requires_subscription => "no",
+                :video_uploader => "Video Uploader",
+                :video_platform => "web",
+                :video_live => "no" }
 
-      @map = XmlSitemap::Map.new('foobar.com', :time => base_time)
-      @map.add('/path?a=b&c=d&e=image support string', opts1)
-      @map.add('/path?a=b&c=d&e=image support string', opts2)
-      @map.add('/path?a=b&c=d&e=image support string', opts3)
-      @map.add('/path?a=b&c=d&e=image support string', opts4)
-      @map.add('/path?a=b&c=d&e=image support string', opts5)
-      @map.add('/path?a=b&c=d&e=image support string', opts6)
+      @image_map = XmlSitemap::Map.new('foobar.com', :time => base_time)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts1)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts2)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts3)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts4)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts5)
+      @image_map.add('/path?a=b&c=d&e=image support string', opts6)
+
+      @video_map = XmlSitemap::Map.new('foobar.com', :time => base_time)
+      @video_map.add('/path?a=b&c=d&e=video', opts7)
+      @video_map.add('/path?a=b&c=d&e=video', opts8)
+      @video_map.add('/path?a=b&c=d&e=video', opts9)
     end
 
     it 'should have properly encoded entities' do
@@ -146,7 +178,7 @@ describe XmlSitemap::Map do
       end
 
       it 'should have properly encoded entities with image support' do
-        s = @map.render(:nokogiri)
+        s = @image_map.render(:nokogiri)
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
       end
     end
@@ -161,8 +193,13 @@ describe XmlSitemap::Map do
       end
 
       it 'should have properly encoded entities with image support' do
-        s = @map.render(:string)
+        s = @image_map.render(:string)
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
+      end
+
+      it 'should have properly encoded entities with video support' do
+        s = @video_map.render(:string)
+        s.split("\n")[2..-1].join("\n").should == fixture('encoded_video_map.xml').split("\n")[2..-1].join("\n")
       end
     end
   end
