@@ -181,6 +181,11 @@ describe XmlSitemap::Map do
         s = @image_map.render(:nokogiri)
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
       end
+
+      it 'should have properly encoded entities with video support' do
+        s = @video_map.render(:nokogiri)
+        s.split("\n")[2..-1].join("\n").should == fixture('encoded_video_map.xml').split("\n")[2..-1].join("\n")
+      end
     end
 
     context 'with string engine' do

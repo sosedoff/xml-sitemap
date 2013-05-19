@@ -15,13 +15,39 @@ module XmlSitemap
             s.url do |u|
               u.loc        item.target
 
+              # Format and image tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636
               if item.image_location
                 u["image"].image do |a|
-                  a["image"].loc                 item.image_location
-                  a["image"].caption             item.image_caption     if item.image_caption
-                  a["image"].title               item.image_title       if item.image_title
-                  a["image"].license             item.image_license     if item.image_license
-                  a["image"].geo_location        item.image_geolocation if item.image_geolocation
+                  a["image"].loc                item.image_location
+                  a["image"].caption            item.image_caption     if item.image_caption
+                  a["image"].title              item.image_title       if item.image_title
+                  a["image"].license            item.image_license     if item.image_license
+                  a["image"].geo_location       item.image_geolocation if item.image_geolocation
+                end
+              end
+
+              # Format and video tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=80472&topic=10079&ctx=topic#2
+              if item.video_thumbnail_location && item.video_title && item.video_description && (item.video_content_location || item.video_player_location)
+                u["video"].video do |a|
+                  a["video"].thumbnail_loc            item.video_thumbnail_location
+                  a["video"].title                    item.video_title
+                  a["video"].description              item.video_description
+                  a["video"].content_loc              item.video_content_location                       if item.video_content_location
+                  a["video"].player_loc               item.video_player_location                        if item.video_player_location
+                  a["video"].duration                 item.video_duration.to_s                          if item.video_duration
+                  a["video"].expiration_date          item.video_expiration_date_value                  if item.video_expiration_date
+                  a["video"].rating                   item.video_rating.to_s                            if item.video_rating
+                  a["video"].view_count               item.video_view_count.to_s                        if item.video_view_count
+                  a["video"].publication_date         item.video_publication_date_value                 if item.video_publication_date
+                  a["video"].family_friendly          item.video_family_friendly                        if item.video_family_friendly
+                  a["video"].category                 item.video_category                               if item.video_category
+                  a["video"].restriction              item.video_restriction, :relationship => "allow"  if item.video_restriction
+                  a["video"].gallery_loc              item.video_gallery_location                       if item.video_gallery_location
+                  a["video"].price                    item.video_price.to_s, :currency => "USD"         if item.video_price
+                  a["video"].requires_subscription    item.video_requires_subscription                  if item.video_requires_subscription
+                  a["video"].uploader                 item.video_uploader                               if item.video_uploader
+                  a["video"].platform                 item.video_platform, :relationship => "allow"     if item.video_platform
+                  a["video"].live                     item.video_live                                   if item.video_live
                 end
               end
 
