@@ -1,4 +1,4 @@
-module XmlSitemap  
+module XmlSitemap
   class Map
     include XmlSitemap::RenderEngine
     
@@ -134,7 +134,7 @@ module XmlSitemap
     end
     
     protected
-  
+    
     # Process target path or url
     #
     def process_target(str)
