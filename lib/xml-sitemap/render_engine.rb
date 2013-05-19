@@ -72,13 +72,39 @@ module XmlSitemap
           s.url do |u|
             u.loc        item.target
 
+            # Format and image tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636
             if item.image_location
               u.image :image do |a|
-                a.tag!("image:loc", CGI::escapeHTML(item.image_location))
-                a.tag!("image:caption", CGI::escapeHTML(item.image_caption))           if item.image_caption
-                a.tag!("image:title", CGI::escapeHTML(item.image_title))               if item.image_title
-                a.tag!("image:license", CGI::escapeHTML(item.image_license))           if item.image_license
-                a.tag!("image:geo_location", CGI::escapeHTML(item.image_geolocation))  if item.image_geolocation
+                a.tag! "image:loc",           CGI::escapeHTML(item.image_location)
+                a.tag! "image:caption",       CGI::escapeHTML(item.image_caption)     if item.image_caption
+                a.tag! "image:title",         CGI::escapeHTML(item.image_title)       if item.image_title
+                a.tag! "image:license",       CGI::escapeHTML(item.image_license)     if item.image_license
+                a.tag! "image:geo_location",  CGI::escapeHTML(item.image_geolocation) if item.image_geolocation
+              end
+            end
+
+            # Format and video tag specifications found at http://support.google.com/webmasters/bin/answer.py?hl=en&answer=80472&topic=10079&ctx=topic#2
+            if item.video_thumbnail_location && item.video_title && item.video_description && (item.video_content_location || item.video_player_location)
+              u.video :video do |a|
+                a.tag! "video:thumbnail_loc",         CGI::escapeHTML(item.video_thumbnail_location)
+                a.tag! "video:title",                 CGI::escapeHTML(item.video_title)
+                a.tag! "video:description",           CGI::escapeHTML(item.video_description)
+                a.tag! "video:content_loc",           CGI::escapeHTML(item.video_content_location)                      if item.video_content_location
+                a.tag! "video:player_loc",            CGI::escapeHTML(item.video_player_location)                       if item.video_player_location
+                a.tag! "video:duration",              CGI::escapeHTML(item.video_duration.to_s)                         if item.video_duration
+                a.tag! "video:expiration_date",       CGI::escapeHTML(item.video_expiration_date_value)                 if item.video_expiration_date
+                a.tag! "video:rating",                CGI::escapeHTML(item.video_rating.to_s)                           if item.video_rating
+                a.tag! "video:view_count",            CGI::escapeHTML(item.video_view_count.to_s)                       if item.video_view_count
+                a.tag! "video:publication_date",      CGI::escapeHTML(item.video_publication_date_value)                if item.video_publication_date
+                a.tag! "video:family_friendly",       CGI::escapeHTML(item.video_family_friendly)                       if item.video_family_friendly
+                a.tag! "video:category",              CGI::escapeHTML(item.video_category)                              if item.video_category
+                a.tag! "video:restriction",           CGI::escapeHTML(item.video_restriction), :relationship => "allow" if item.video_restriction
+                a.tag! "video:gallery_loc",           CGI::escapeHTML(item.video_gallery_location)                      if item.video_gallery_location
+                a.tag! "video:price",                 CGI::escapeHTML(item.video_price.to_s), :currency => "USD"        if item.video_price
+                a.tag! "video:requires_subscription", CGI::escapeHTML(item.video_requires_subscription)                 if item.video_requires_subscription
+                a.tag! "video:uploader",              CGI::escapeHTML(item.video_uploader)                              if item.video_uploader
+                a.tag! "video:platform",              CGI::escapeHTML(item.video_platform), :relationship => "allow"    if item.video_platform
+                a.tag! "video:live",                  CGI::escapeHTML(item.video_live)                                  if item.video_live
               end
             end
 
