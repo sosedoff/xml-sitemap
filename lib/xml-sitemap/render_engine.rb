@@ -74,11 +74,11 @@ module XmlSitemap
 
             if item.image_location
               u.image :image do |a|
-                a.tag!("image:loc")           { |b| b.text! item.image_location }
-                a.tag!("image:caption")       { |b| b.text! item.image_caption }        if item.image_caption
-                a.tag!("image:title")         { |b| b.text! item.image_title }          if item.image_title
-                a.tag!("image:license")       { |b| b.text! item.image_license }        if item.image_license
-                a.tag!("image:geo_location")  { |b| b.text! item.image_geolocation }    if item.image_geolocation
+                a.tag!("image:loc", CGI::escapeHTML(item.image_location))
+                a.tag!("image:caption", CGI::escapeHTML(item.image_caption))           if item.image_caption
+                a.tag!("image:title", CGI::escapeHTML(item.image_title))               if item.image_title
+                a.tag!("image:license", CGI::escapeHTML(item.image_license))           if item.image_license
+                a.tag!("image:geo_location", CGI::escapeHTML(item.image_geolocation))  if item.image_geolocation
               end
             end
 

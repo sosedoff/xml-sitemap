@@ -166,6 +166,16 @@ describe XmlSitemap::Map do
         # ignore ordering of urlset attributes by dropping first two lines
         s.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
       end
+
+      it 'should have properly encoded entities with image support' do
+        s = @image_map.render(:builder)
+        s.split("\n")[2..-1].join("\n").should == fixture('encoded_image_map.xml').split("\n")[2..-1].join("\n")
+      end
+
+      # it 'should have properly encoded entities with video support' do
+      #   s = @video_map.render(:builder)
+      #   s.split("\n")[2..-1].join("\n").should == fixture('encoded_video_map.xml').split("\n")[2..-1].join("\n")
+      # end
     end
 
     context 'with nokogiri engine' do
