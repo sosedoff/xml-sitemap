@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://foobar.com/</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=video</loc>
+    <video:video>
+      <video:thumbnail_loc>http://foobar.com/foo.jpg</video:thumbnail_loc>
+      <video:title>Video Title</video:title>
+      <video:description>Video Description</video:description>
+      <video:content_loc>http://foobar.com/foo.mp4</video:content_loc>
+    </video:video>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=video</loc>
+    <video:video>
+      <video:thumbnail_loc>http://foobar.com/foo.jpg</video:thumbnail_loc>
+      <video:title>Video Title</video:title>
+      <video:description>Video Description</video:description>
+      <video:player_loc>http://foobar.com/foo.swf</video:player_loc>
+    </video:video>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=video</loc>
+    <video:video>
+      <video:thumbnail_loc>http://foobar.com/foo.jpg</video:thumbnail_loc>
+      <video:title>Video Title</video:title>
+      <video:description>Video Description</video:description>
+      <video:content_loc>http://foobar.com/foo.mp4</video:content_loc>
+      <video:player_loc>http://foobar.com/foo.swf</video:player_loc>
+      <video:duration>180</video:duration>
+      <video:expiration_date>2012-06-01T00:00:01Z</video:expiration_date>
+      <video:rating>3.5</video:rating>
+      <video:view_count>2500</video:view_count>
+      <video:publication_date>2011-06-01T00:00:01Z</video:publication_date>
+      <video:family_friendly>no</video:family_friendly>
+      <video:category>Video Category</video:category>
+      <video:restriction relationship="allow">IT</video:restriction>
+      <video:gallery_loc>http://foobar.com/foo.mpu</video:gallery_loc>
+      <video:price currency="USD">20</video:price>
+      <video:requires_subscription>no</video:requires_subscription>
+      <video:uploader>Video Uploader</video:uploader>
+      <video:platform relationship="allow">web</video:platform>
+      <video:live>no</video:live>
+    </video:video>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
