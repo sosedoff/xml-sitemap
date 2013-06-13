@@ -38,7 +38,7 @@ map = XmlSitemap::Map.new('domain.com') do |m|
   # You can drop leading slash, it will be automatically added
   m.add 'page2'
 
-  # Set the page priority (default is 0.5)
+  # Set the page priority
   m.add 'page3', :priority => 0.2
 
   # Specify last modification date and update frequiency
@@ -73,7 +73,7 @@ map = XmlSitemap.map('foobar.com')
   
 By default XmlSitemap creates a map with link to homepage of your domain. 
 
-Homepage priority is `1.0`. Default page priority is set to `0.5`
+Homepage priority is `1.0`.
 
 List of available update periods:
 
