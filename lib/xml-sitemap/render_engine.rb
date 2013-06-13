@@ -52,8 +52,8 @@ module XmlSitemap
               end
 
               u.lastmod    item.lastmod_value
-              u.changefreq item.changefreq.to_s
-              u.priority   item.priority.to_s
+              u.changefreq item.changefreq.to_s if item.changefreq
+              u.priority   item.priority.to_s if item.priority
             end
           end
         }
@@ -109,8 +109,8 @@ module XmlSitemap
             end
 
             u.lastmod    item.lastmod_value
-            u.changefreq item.changefreq.to_s
-            u.priority   item.priority.to_s
+            u.changefreq item.changefreq.to_s if item.changefreq
+            u.priority   item.priority.to_s if item.priority
           end
         end
       }.to_s
@@ -169,8 +169,8 @@ module XmlSitemap
         end
 
         item_string << "    <lastmod>#{item.lastmod_value}</lastmod>\n"
-        item_string << "    <changefreq>#{item.changefreq}</changefreq>\n"
-        item_string << "    <priority>#{item.priority}</priority>\n"
+        item_string << "    <changefreq>#{item.changefreq}</changefreq>\n" if item.changefreq
+        item_string << "    <priority>#{item.priority}</priority>\n" if item.priority
         item_string << "  </url>\n"
 
         item_results << item_string
