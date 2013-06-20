@@ -11,7 +11,7 @@ describe XmlSitemap::Index do
 
     it 'should raise error if passing a wrong object' do
       index = XmlSitemap::Index.new
-      expect { index.add(nil) }.to raise_error ArgumentError, 'XmlSitemap::Map object requred!'
+      expect { index.add(nil) }.to raise_error ArgumentError, 'XmlSitemap::Map object required!'
     end
 
     it 'should raise error if passing an empty sitemap' do
