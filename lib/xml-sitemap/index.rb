@@ -21,7 +21,7 @@ module XmlSitemap
     # map - XmlSitemap::Map instance
     #
     def add(map)
-      raise ArgumentError, 'XmlSitemap::Map object requred!' unless map.kind_of?(XmlSitemap::Map)
+      raise ArgumentError, 'XmlSitemap::Map object required!' unless map.kind_of?(XmlSitemap::Map)
       raise ArgumentError, 'Map is empty!' if map.empty?
       
       @maps << {
