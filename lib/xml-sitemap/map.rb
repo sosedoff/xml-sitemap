@@ -42,8 +42,8 @@ module XmlSitemap
     # opts   - Item options
     #
     # opts[:updated]       - Lastmod property of the item
-    # opts[:period]        - Update frequency. (default - :weekly)
-    # opts[:priority]      - Item priority. (default: 0.5)
+    # opts[:period]        - Update frequency.
+    # opts[:priority]      - Item priority.
     # opts[:validate_time] - Skip time validation if want to insert raw strings.
     #
     def add(target, opts={})
