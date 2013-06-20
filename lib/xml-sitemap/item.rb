@@ -13,8 +13,8 @@ module XmlSitemap
     def initialize(target, opts={})
       @target            = target.to_s.strip
       @updated           = opts[:updated]  || Time.now
-      @priority          = opts[:priority] || DEFAULT_PRIORITY
-      @changefreq        = opts[:period]   || :weekly
+      @priority          = opts[:priority]
+      @changefreq        = opts[:period]
       @validate_time     = (opts[:validate_time] != false)
 
       # Refer to http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636 for requirement to support images in sitemap
@@ -46,9 +46,11 @@ module XmlSitemap
       @video_platform               = opts[:video_platform]
       @video_live                   = opts[:video_live]
 
-      @changefreq = @changefreq.to_sym
-      unless XmlSitemap::PERIODS.include?(@changefreq)
-        raise ArgumentError, "Invalid :period value '#{@changefreq}'"
+      if @changefreq
+        @changefreq = @changefreq.to_sym
+        unless XmlSitemap::PERIODS.include?(@changefreq)
+          raise ArgumentError, "Invalid :period value '#{@changefreq}'"
+        end
       end
 
       unless @updated.kind_of?(Time) || @updated.kind_of?(Date) || @updated.kind_of?(String)

@@ -3,7 +3,6 @@
   <url>
     <loc>http://foobar.com/</loc>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
@@ -15,8 +14,6 @@
       <video:content_loc>http://foobar.com/foo.mp4</video:content_loc>
     </video:video>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=video</loc>
@@ -27,8 +24,6 @@
       <video:player_loc>http://foobar.com/foo.swf</video:player_loc>
     </video:video>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=video</loc>
@@ -54,7 +49,5 @@
       <video:live>no</video:live>
     </video:video>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
 </urlset>

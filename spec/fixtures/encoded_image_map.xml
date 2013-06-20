@@ -3,7 +3,6 @@
   <url>
     <loc>http://foobar.com/</loc>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
@@ -12,8 +11,6 @@
       <image:loc>http://foobar.com/foo.gif</image:loc>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
@@ -22,8 +19,6 @@
       <image:title>Image Title</image:title>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
@@ -32,8 +27,6 @@
       <image:caption>Image Caption</image:caption>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
@@ -42,8 +35,6 @@
       <image:license>Image License</image:license>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
@@ -52,8 +43,6 @@
       <image:geo_location>Image GeoLocation</image:geo_location>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   <url>
     <loc>http://foobar.com/path?a=b&amp;c=d&amp;e=image support string</loc>
@@ -65,7 +54,5 @@
       <image:geo_location>Image GeoLocation</image:geo_location>
     </image:image>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
 </urlset>
