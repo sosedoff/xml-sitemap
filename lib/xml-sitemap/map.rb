@@ -87,6 +87,10 @@ module XmlSitemap
       "#{secure ? 'https' : 'http'}://#{@domain}/#{@group}-#{offset}.xml"
     end
 
+    def plain_index_url(secure)
+      "#{secure ? 'https' : 'http'}://#{@domain}/#{@group}.xml"
+    end
+
     # Render XML
     #
     # method - Pick a render engine (:builder, :nokogiri, :string).

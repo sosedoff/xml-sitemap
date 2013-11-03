@@ -45,6 +45,18 @@ describe XmlSitemap::Index do
 
       index.render.split("\n")[2..-1].join("\n").should == fixture('sample_index_secure.xml').split("\n")[2..-1].join("\n")
     end
+
+    it 'renders a proper index for multiple subdomains' do
+      m1 = XmlSitemap::Map.new('one.foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('two.foobar.com', :time => base_time) { |m| m.add('about') }
+
+      index = XmlSitemap::Index.new do |i|
+        i.add(m1, false)
+        i.add(m2, false)
+      end
+
+      index.render.split("\n")[2..-1].join("\n").should == fixture('sample_many_subdomains_index.xml').split("\n")[2..-1].join("\n")
+    end
   end
 
   describe '#render_to' do
