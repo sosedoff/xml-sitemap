@@ -20,12 +20,12 @@ module XmlSitemap
     #
     # map - XmlSitemap::Map instance
     #
-    def add(map)
+    def add(map, use_offsets=true)
       raise ArgumentError, 'XmlSitemap::Map object required!' unless map.kind_of?(XmlSitemap::Map)
       raise ArgumentError, 'Map is empty!' if map.empty?
       
       @maps << {
-        :loc     => map.index_url(@offsets[map.group], @secure),
+        :loc     => use_offsets ? map.index_url(@offsets[map.group], @secure) : map.plain_index_url(@secure),
         :lastmod => map.created_at.utc.iso8601
       }
       @offsets[map.group] += 1
