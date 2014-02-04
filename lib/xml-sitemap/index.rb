@@ -7,11 +7,13 @@ module XmlSitemap
     # opts   - Index options
     #
     # opts[:secure] - Force HTTPS for all items. (default: false)
+    # opts[:gzip] - Force .gzip extension for all items. (default: false)
     #
     def initialize(opts={})
-      @maps     = []
-      @offsets  = Hash.new(0)
-      @secure   = opts[:secure] || false
+      @maps        = []
+      @offsets     = Hash.new(0)
+      @secure      = opts[:secure] || false
+      @global_gzip = opts[:gzip] || false
       
       yield self if block_given?
     end
@@ -20,14 +22,19 @@ module XmlSitemap
     #
     # map - XmlSitemap::Map instance
     #
-    def add(map, use_offsets=true)
+    #def add(map, use_offsets=true)
+    def add(map, opts={})
       raise ArgumentError, 'XmlSitemap::Map object required!' unless map.kind_of?(XmlSitemap::Map)
       raise ArgumentError, 'Map is empty!' if map.empty?
-      
+
+      @local_gzip  = opts[:gzip] || false
+      @use_offsets = !opts[:use_offsets].nil? ? opts[:use_offsets] : true
+
       @maps << {
-        :loc     => use_offsets ? map.index_url(@offsets[map.group], @secure) : map.plain_index_url(@secure),
+        :loc     => @use_offsets ? map.index_url(@offsets[map.group], @secure) : map.plain_index_url(@secure),
         :lastmod => map.created_at.utc.iso8601
       }
+      @maps.last[:loc] += '.gz' if @global_gzip || @local_gzip
       @offsets[map.group] += 1
     end
     

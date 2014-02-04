@@ -51,8 +51,8 @@ describe XmlSitemap::Index do
       m2 = XmlSitemap::Map.new('two.foobar.com', :time => base_time) { |m| m.add('about') }
 
       index = XmlSitemap::Index.new do |i|
-        i.add(m1, false)
-        i.add(m2, false)
+        i.add(m1, :use_offsets => false)
+        i.add(m2, :use_offsets => false)
       end
 
       index.render.split("\n")[2..-1].join("\n").should == fixture('sample_many_subdomains_index.xml').split("\n")[2..-1].join("\n")
@@ -90,6 +90,19 @@ describe XmlSitemap::Index do
 
       index.render_to(index_path)
       File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('group_index.xml').split("\n")[2..-1].join("\n"))
+    end
+
+    it 'saves index contents to the filesystem with gzip options' do
+      m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+
+      index = XmlSitemap::Index.new do |i|
+        i.add(m1, :gzip => true)
+        i.add(m2, :gzip => true)
+      end
+
+      index.render_to(index_path)
+      File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('sample_index_with_gz.xml').split("\n")[2..-1].join("\n"))
     end
   end
 end
