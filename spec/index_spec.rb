@@ -92,13 +92,26 @@ describe XmlSitemap::Index do
       File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('group_index.xml').split("\n")[2..-1].join("\n"))
     end
 
-    it 'saves index contents to the filesystem with gzip options' do
+    it 'saves index contents to the filesystem with local gzip options for each map' do
       m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
       m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
 
       index = XmlSitemap::Index.new do |i|
         i.add(m1, :gzip => true)
         i.add(m2, :gzip => true)
+      end
+
+      index.render_to(index_path)
+      File.read(index_path).split("\n")[2..-1].join("\n").should eq(fixture('sample_index_with_gz.xml').split("\n")[2..-1].join("\n"))
+    end
+
+    it 'saves index contents to the filesystem with global gzip options for all maps' do
+      m1 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+      m2 = XmlSitemap::Map.new('foobar.com', :time => base_time) { |m| m.add('about') }
+
+      index = XmlSitemap::Index.new(:gzip => true) do |i|
+        i.add(m1)
+        i.add(m2)
       end
 
       index.render_to(index_path)

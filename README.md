@@ -129,11 +129,17 @@ index = XmlSitemap::Index.new
 # or if you want the URLs to use HTTPS
 index = XmlSitemap::Index.new(:secure => true)
 
+# or gzip compression for all sitemaps
+index = XmlSitemap::Index.new(:gzip => true)
+
 # or via shortcut
 index = XmlSitemap.index
 
 # Add a map to the index
 index.add(map)
+
+# With a gzip option for current map
+index.add(map, :gzip => true)
 
 # Render as XML
 index.render

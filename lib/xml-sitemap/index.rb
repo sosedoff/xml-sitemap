@@ -1,7 +1,7 @@
 module XmlSitemap
   class Index
     attr_reader :maps
-    
+
     # Initialize a new Index instance
     #
     # opts   - Index options
@@ -14,10 +14,10 @@ module XmlSitemap
       @offsets     = Hash.new(0)
       @secure      = opts[:secure] || false
       @global_gzip = opts[:gzip] || false
-      
+
       yield self if block_given?
     end
-    
+
     # Add map object to index
     #
     # map - XmlSitemap::Map instance
@@ -31,13 +31,12 @@ module XmlSitemap
       @use_offsets = !opts[:use_offsets].nil? ? opts[:use_offsets] : true
 
       @maps << {
-        :loc     => @use_offsets ? map.index_url(@offsets[map.group], @secure) : map.plain_index_url(@secure),
+        :loc     => set_map_loc(map),
         :lastmod => map.created_at.utc.iso8601
       }
-      @maps.last[:loc] += '.gz' if @global_gzip || @local_gzip
       @offsets[map.group] += 1
     end
-    
+
     # Generate sitemap XML index
     #
     def render
@@ -52,7 +51,7 @@ module XmlSitemap
         end
       }.to_s
     end
-    
+
     # Render XML sitemap index into the file
     #
     # path    - Output filename
@@ -63,12 +62,28 @@ module XmlSitemap
     def render_to(path, options={})
       overwrite = options[:overwrite] || true
       path = File.expand_path(path)
-      
+
       if File.exists?(path) && !overwrite
         raise RuntimeError, "File already exists and not overwritable!"
       end
-      
+
       File.open(path, 'w') { |f| f.write(self.render) }
+    end
+
+    private
+
+    # Set location for selected map
+    #
+    # map - XmlSitemap::Map instance
+    def set_map_loc(map)
+      loc = if @use_offsets
+        map.index_url(@offsets[map.group], @secure)
+      else
+        map.plain_index_url(@secure)
+      end
+
+      loc += '.gz' if @global_gzip || @local_gzip
+      loc
     end
   end
 end
