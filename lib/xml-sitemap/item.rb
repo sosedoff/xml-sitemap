@@ -9,7 +9,7 @@ module XmlSitemap
                 :video_thumbnail_location, :video_title, :video_description, :video_content_location, :video_player_location,
                 :video_duration, :video_expiration_date, :video_rating, :video_view_count, :video_publication_date, :video_family_friendly, :video_category,
                 :video_restriction, :video_gallery_location, :video_price, :video_requires_subscription, :video_uploader, :video_platform, :video_live
-                
+
     def initialize(target, opts={})
       @target            = target.to_s.strip
       @updated           = opts[:updated]  || Time.now
