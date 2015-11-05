@@ -1,4 +1,4 @@
-# XmlSitemap [![Build Status](https://secure.travis-ci.org/sosedoff/xml-sitemap.png?branch=master)](http://travis-ci.org/sosedoff/xml-sitemap)
+# XmlSitemap [![Build Status](https://secure.travis-ci.org/sosedoff/xml-sitemap.png?branch=master)](http://travis-ci.org/sosedoff/xml-sitemap) [![Dependency Status](https://www.versioneye.com/ruby/xml-sitemap/badge.svg)](https://www.versioneye.com/ruby/xml-sitemap)
 
 XmlSitemap is a ruby library that provides an easy way to generate XML sitemaps and indexes.
 
