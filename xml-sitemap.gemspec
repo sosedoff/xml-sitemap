@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/sosedoff/xml-sitemap"
   s.authors     = ["Dan Sosedoff"]
   s.email       = ["dan.sosedoff@gmail.com"]
+  s.license     = "MIT"
   
   s.add_development_dependency 'rake',      '~> 10.0'
   s.add_development_dependency 'rspec',     '~> 2.13'
