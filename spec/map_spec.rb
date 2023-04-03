@@ -158,6 +158,15 @@ describe XmlSitemap::Map do
       map.render.split("\n")[2..-1].join("\n").should == fixture('encoded_map.xml').split("\n")[2..-1].join("\n")
     end
 
+    it 'should render xhtml links' do
+      map = XmlSitemap::Map.new('foobar.com', :home => false, :time => base_time)
+      map.add('/path', xhtml_links: [
+        { hreflang: 'fr', href: 'http://foobar.com/path?lang=fr' },
+        { hreflang: 'it', href: 'http://foobar.com/path?lang=it' }
+      ])
+      map.render.split("\n")[2..-1].join("\n").should == fixture('xhtml_links_map.xml').split("\n")[2..-1].join("\n")
+    end
+
     context 'with builder engine' do
       it 'should have properly encoded entities' do
         map = XmlSitemap::Map.new('foobar.com', :time => base_time)
