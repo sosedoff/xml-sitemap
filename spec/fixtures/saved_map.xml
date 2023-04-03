@@ -17,4 +17,8 @@
     <loc>http://foobar.com/privacy</loc>
     <lastmod>2011-06-01T00:00:01Z</lastmod>
   </url>
+  <url>
+    <loc>http://foobar.com/test</loc>
+    <lastmod>2011-06-01T00:00:01Z</lastmod>
+  </url>
 </urlset>

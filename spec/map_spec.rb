@@ -226,6 +226,7 @@ describe XmlSitemap::Map do
         m.add('about')
         m.add('terms')
         m.add('privacy')
+        m.add('test', xhtml_links: [{ href_lang: 'fr', href: 'http://foobar.com/test?lang=fr' }])
       end
 
       map.render_to(path)
