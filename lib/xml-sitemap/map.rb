@@ -45,6 +45,7 @@ module XmlSitemap
     # opts[:period]        - Update frequency.
     # opts[:priority]      - Item priority.
     # opts[:validate_time] - Skip time validation if want to insert raw strings.
+    # opts[:xhtml_links]   - Array of xhtml:link.
     #
     def add(target, opts={})
       raise RuntimeError, 'Only up to 50k records allowed!' if @items.size > 50000
